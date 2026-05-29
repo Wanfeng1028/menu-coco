@@ -6,7 +6,7 @@
         :key="tab.key"
         class="tab-item"
         :class="{ active: modelValue === tab.key }"
-        @click="$emit('update:modelValue', tab.key)"
+        @click="handleTabClick(tab.key)"
       >
         <span class="tab-emoji">{{ tab.emoji }}</span>
         <span class="tab-label">{{ tab.label }}</span>
@@ -18,13 +18,21 @@
 <script setup lang="ts">
 import type { MealType } from '@/types/order'
 
-defineProps<{
+const props = defineProps<{
   modelValue: MealType | 'all'
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   'update:modelValue': [value: MealType | 'all']
 }>()
+
+function handleTabClick(key: MealType | 'all') {
+  if (key !== 'all' && props.modelValue === key) {
+    emit('update:modelValue', 'all')
+  } else {
+    emit('update:modelValue', key)
+  }
+}
 
 const mealTabs = [
   { key: 'all' as const, label: '都想看看', emoji: '👀' },

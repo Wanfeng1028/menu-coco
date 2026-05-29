@@ -44,7 +44,7 @@
       </div>
 
       <!-- 投喂方式选择 -->
-      <div class="field">
+      <div class="field" data-section="schedule">
         <label class="field-label">⏰ 什么时候想吃</label>
         <div class="option-group">
           <button

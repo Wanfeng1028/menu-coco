@@ -14,12 +14,22 @@
       <TopTipBar />
       <ShopStatusCard />
       <SearchBar v-model="searchQuery" />
+      <MealTypeTabs v-model="mealTypeTabValue" />
       <QuickActions
         :current-meal-type="currentMealType"
-        @action="handleQuickAction"
         @update:meal-type="handleMealTypeChange"
         @scroll-to-order="scrollToOrderForm"
         @random-add="handleRandomAdd"
+      />
+      <FilterStatusBar
+        :meal-type-label="mealTypeLabel"
+        :category-label="categoryLabel"
+        :search-keyword="searchQuery"
+        :has-any-filter="hasActiveFilters"
+        @clear-meal-type="handleClearMealType"
+        @clear-category="handleClearCategory"
+        @clear-search="handleClearSearch"
+        @clear-all="handleClearAllFilters"
       />
       <BenefitCards />
 
@@ -33,6 +43,7 @@
       </div>
 
       <ShopMenuLayout
+        v-model:active-category="selectedCategory"
         :categories="categories"
         :menu-items="filteredMenuItems"
         :cart="cart"
@@ -125,18 +136,21 @@
       </div>
     </Transition>
 
-    <!-- 成功提示 toast -->
-    <Transition name="fade">
-      <div v-if="successMessage" class="success-toast">
-        {{ successMessage }}
-      </div>
-    </Transition>
+    <!-- 操作提示 toast -->
+    <ToastMessage
+      :visible="toastState.visible"
+      :message="toastState.message"
+      :undoable="toastState.undoable"
+      :duration="toastState.duration"
+      @close="handleToastClose"
+      @undo="handleToastUndo"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
-import type { MenuItem, CartItem, OrderForm as OrderFormType, OrderRecord, AppView, MealType } from '@/types/order'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
+import type { MenuItem, CartItem, OrderForm as OrderFormType, OrderRecord, AppView, MealType, MenuCategory } from '@/types/order'
 import { menuItems, categories } from '@/data/menu'
 import { getCart, setCart, clearCart, getPreference, setPreference, getOrderHistory, addOrderHistory, clearOrderHistory } from '@/utils/storage'
 import { sendOrderEmail } from '@/utils/email'
@@ -159,6 +173,9 @@ import RandomRecommend from '@/components/RandomRecommend.vue'
 import OrderSuccessPage from '@/components/OrderSuccessPage.vue'
 import OrderFailCard from '@/components/OrderFailCard.vue'
 import OrderHistory from '@/components/OrderHistory.vue'
+import MealTypeTabs from '@/components/MealTypeTabs.vue'
+import FilterStatusBar from '@/components/FilterStatusBar.vue'
+import ToastMessage from '@/components/ToastMessage.vue'
 
 // State
 const currentView = ref<AppView>('menu')
@@ -168,7 +185,6 @@ const showRecommend = ref(false)
 const recommendations = ref<MenuItem[]>([])
 const submitting = ref(false)
 const errorMessage = ref('')
-const successMessage = ref('')
 const showFailCard = ref(false)
 const submitError = ref('')
 const latestOrder = ref<OrderRecord | null>(null)
@@ -176,6 +192,14 @@ const orderHistory = ref<OrderRecord[]>([])
 const menuRef = ref<HTMLElement | null>(null)
 const cartPanelRef = ref<InstanceType<typeof CartPanel> | null>(null)
 const currentMealType = ref<MealType>('anytime')
+const selectedCategory = ref<MenuCategory | 'all'>('all')
+const lastRandomAddDelta = ref<{ id: string; addedQuantity: number }[]>([])
+const toastState = ref({
+  visible: false,
+  message: '',
+  undoable: false,
+  duration: 3000
+})
 
 // 按餐次筛选菜品：'anytime' 显示全部，否则只显示 mealTypes 包含当前餐次或无限制的菜品
 function filterByMealType(items: MenuItem[]): MenuItem[] {
@@ -230,6 +254,43 @@ const favoriteItems = computed(() => {
 const cartCount = computed(() => {
   return cart.value.reduce((sum, item) => sum + item.quantity, 0)
 })
+
+const mealTypeTabValue = computed({
+  get: () => currentMealType.value === 'anytime' ? 'all' as const : currentMealType.value,
+  set: (val: MealType | 'all') => {
+    if (val === 'all') {
+      if (currentMealType.value !== 'anytime') {
+        currentMealType.value = 'anytime'
+        orderForm.value.mealType = 'anytime'
+        showToast('已取消餐次筛选，宝宝可以重新挑～')
+      }
+    } else {
+      handleMealTypeChange(val)
+    }
+  }
+})
+
+const mealTypeLabel = computed(() => {
+  const labels: Record<string, string> = {
+    breakfast: '🌅 早餐',
+    lunch: '☀️ 午餐',
+    dinner: '🌙 晚餐',
+    lateNight: '🌃 夜宵'
+  }
+  return labels[currentMealType.value] || ''
+})
+
+const categoryLabel = computed(() => {
+  if (selectedCategory.value === 'all') return ''
+  const cat = categories.find(c => c.key === selectedCategory.value)
+  return cat?.label || ''
+})
+
+const hasActiveFilters = computed(() =>
+  currentMealType.value !== 'anytime' ||
+  selectedCategory.value !== 'all' ||
+  searchQuery.value !== ''
+)
 
 // Cart methods
 function addToCart(item: MenuItem) {
@@ -356,99 +417,59 @@ function addAllRecommendations() {
   showRecommend.value = false
 }
 
-// Quick actions
-function handleQuickAction(key: string) {
-  switch (key) {
-    case 'recommend': {
-      searchQuery.value = ''
-      const recommended = filterByMealType(menuItems.filter(i => i.isRecommended)).slice(0, 6)
-      if (recommended.length > 0) {
-        recommendations.value = recommended
-        showRecommend.value = true
-      }
-      break
-    }
-    case 'random':
-      showRandomRecommend()
-      break
-    case 'meat':
-      searchQuery.value = '肉'
-      break
-    case 'drink':
-      searchQuery.value = '饮料'
-      break
-    case 'coax': {
-      const coaxItem = menuItems.find(item => item.id === 'want-to-be-coaxed')
-      if (coaxItem) addToCart(coaxItem)
-      break
-    }
-    case 'arrange': {
-      const pick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)]
-      const nonSpecial = filterByMealType(menuItems.filter(i => i.category !== 'special'))
-      const stapleHome = nonSpecial.filter(i => ['staple', 'home', 'breakfast'].includes(i.category))
-      const meatBbq = nonSpecial.filter(i => i.category === 'meat' || i.category === 'bbq')
-      const drinks = nonSpecial.filter(i => i.category === 'drink')
-      const desserts = nonSpecial.filter(i => i.category === 'dessert')
-
-      const ids = new Set<string>()
-      const add = (item: MenuItem | undefined) => {
-        if (item && !ids.has(item.id)) {
-          addToCart(item)
-          ids.add(item.id)
-        }
-      }
-
-      add(pick(stapleHome))
-      add(pick(meatBbq))
-      if (Math.random() > 0.5) add(pick(drinks))
-      if (Math.random() > 0.5) add(pick(desserts))
-
-      const target = Math.max(2, ids.size)
-      const pool = nonSpecial.filter(i => !ids.has(i.id)).sort(() => Math.random() - 0.5)
-      for (const item of pool) {
-        if (ids.size >= target) break
-        add(item)
-      }
-      break
-    }
-  }
-}
-
 // QuickActions new event handlers
 function handleMealTypeChange(mealType: MealType) {
-  currentMealType.value = mealType
-  orderForm.value.mealType = mealType
+  if (currentMealType.value === mealType) {
+    currentMealType.value = 'anytime'
+    showToast('已取消餐次筛选，宝宝可以重新挑～')
+  } else {
+    currentMealType.value = mealType
+    const labels: Record<string, string> = {
+      breakfast: '早餐', lunch: '午餐', dinner: '晚餐', lateNight: '夜宵'
+    }
+    showToast(`已切换到${labels[mealType] || mealType}好好吃～`)
+  }
+  orderForm.value.mealType = currentMealType.value
 }
 
-function scrollToOrderForm() {
+async function scrollToOrderForm() {
   if (cart.value.length === 0) {
-    errorMessage.value = '先选点菜再去下单哦～'
-    setTimeout(() => { errorMessage.value = '' }, 2000)
+    showToast('先选点菜再去下单哦～')
     return
   }
   currentView.value = 'order'
+  showToast('已跳到投喂时间设置～')
+  await nextTick()
+  const scheduleSection = document.querySelector('[data-section="schedule"]')
+  if (scheduleSection) {
+    scheduleSection.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
 }
 
 function handleRandomAdd() {
-  const count = Math.floor(Math.random() * 3) + 2 // 2-4 items
+  const count = Math.floor(Math.random() * 3) + 2
   const nonSpecial = filterByMealType(menuItems.filter(i => i.category !== 'special'))
-  const usedIds = new Set(cart.value.map(i => i.id))
 
-  // Prefer categories matching current meal type
+  // Snapshot current cart quantities
+  const cartSnapshot = new Map<string, number>()
+  for (const item of cart.value) {
+    cartSnapshot.set(item.id, item.quantity)
+  }
+
   let preferred: MenuItem[] = []
   let others: MenuItem[] = []
 
   if (currentMealType.value === 'breakfast') {
-    preferred = nonSpecial.filter(i => ['breakfast', 'staple'].includes(i.category) && !usedIds.has(i.id))
-    others = nonSpecial.filter(i => !['breakfast', 'staple', 'special'].includes(i.category) && !usedIds.has(i.id))
+    preferred = nonSpecial.filter(i => ['breakfast', 'staple'].includes(i.category))
+    others = nonSpecial.filter(i => !['breakfast', 'staple', 'special'].includes(i.category))
   } else if (currentMealType.value === 'lunch' || currentMealType.value === 'dinner') {
-    preferred = nonSpecial.filter(i => ['home', 'meat', 'bbq', 'staple'].includes(i.category) && !usedIds.has(i.id))
-    others = nonSpecial.filter(i => !['home', 'meat', 'bbq', 'staple', 'special'].includes(i.category) && !usedIds.has(i.id))
+    preferred = nonSpecial.filter(i => ['home', 'meat', 'bbq', 'staple'].includes(i.category))
+    others = nonSpecial.filter(i => !['home', 'meat', 'bbq', 'staple', 'special'].includes(i.category))
   } else if (currentMealType.value === 'lateNight') {
-    preferred = nonSpecial.filter(i => ['snack', 'bbq', 'drink'].includes(i.category) && !usedIds.has(i.id))
-    others = nonSpecial.filter(i => !['snack', 'bbq', 'drink', 'special'].includes(i.category) && !usedIds.has(i.id))
+    preferred = nonSpecial.filter(i => ['snack', 'bbq', 'drink'].includes(i.category))
+    others = nonSpecial.filter(i => !['snack', 'bbq', 'drink', 'special'].includes(i.category))
   } else {
-    preferred = nonSpecial.filter(i => !usedIds.has(i.id))
+    preferred = nonSpecial
     others = []
   }
 
@@ -456,16 +477,44 @@ function handleRandomAdd() {
   others.sort(() => Math.random() - 0.5)
   const pool = [...preferred, ...others]
 
+  const usedIds = new Set<string>()
   let added = 0
   for (const item of pool) {
     if (added >= count) break
-    addToCart(item)
-    added++
+    if (!usedIds.has(item.id)) {
+      addToCart(item)
+      usedIds.add(item.id)
+      added++
+    }
   }
 
-  if (added > 0) {
-    showSuccessToast(`已随机加入 ${added} 道菜～`)
+  // Compute delta
+  const delta: { id: string; addedQuantity: number }[] = []
+  for (const item of cart.value) {
+    const oldQty = cartSnapshot.get(item.id) || 0
+    if (item.quantity > oldQty) {
+      delta.push({ id: item.id, addedQuantity: item.quantity - oldQty })
+    }
   }
+  lastRandomAddDelta.value = delta
+
+  if (delta.length > 0) {
+    showToast(`已随机加入 ${delta.length} 道菜～`, true, 5000)
+  }
+}
+
+function handleUndoRandomAdd() {
+  for (const d of lastRandomAddDelta.value) {
+    const item = cart.value.find(i => i.id === d.id)
+    if (item) {
+      item.quantity -= d.addedQuantity
+      if (item.quantity <= 0) {
+        cart.value = cart.value.filter(i => i.id !== d.id)
+      }
+    }
+  }
+  lastRandomAddDelta.value = []
+  showToast('已撤销本次随便安排～')
 }
 
 // Navigation
@@ -574,9 +623,45 @@ function handleClearHistory() {
   showSuccessToast('历史已清空～')
 }
 
+function showToast(message: string, undoable = false, duration = 3000) {
+  toastState.value = { visible: true, message, undoable, duration }
+}
+
+function handleToastClose() {
+  toastState.value.visible = false
+}
+
+function handleToastUndo() {
+  handleUndoRandomAdd()
+  toastState.value.visible = false
+}
+
+function handleClearMealType() {
+  currentMealType.value = 'anytime'
+  orderForm.value.mealType = 'anytime'
+  showToast('已取消餐次筛选，宝宝可以重新挑～')
+}
+
+function handleClearCategory() {
+  selectedCategory.value = 'all'
+  showToast('已取消分类筛选～')
+}
+
+function handleClearSearch() {
+  searchQuery.value = ''
+  showToast('已清空搜索～')
+}
+
+function handleClearAllFilters() {
+  currentMealType.value = 'anytime'
+  selectedCategory.value = 'all'
+  searchQuery.value = ''
+  orderForm.value.mealType = 'anytime'
+  showToast('已清空筛选，宝宝可以重新挑～')
+}
+
 function showSuccessToast(msg: string) {
-  successMessage.value = msg
-  setTimeout(() => { successMessage.value = '' }, 2000)
+  showToast(msg)
 }
 </script>
 
@@ -595,21 +680,6 @@ function showSuccessToast(msg: string) {
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.75);
-  color: $white;
-  padding: $spacing-md $spacing-2xl;
-  border-radius: $radius-lg;
-  font-size: $font-sm;
-  z-index: 400;
-  max-width: 280px;
-  text-align: center;
-}
-
-.success-toast {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(76, 175, 80, 0.9);
   color: $white;
   padding: $spacing-md $spacing-2xl;
   border-radius: $radius-lg;

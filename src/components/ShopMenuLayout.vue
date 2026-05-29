@@ -6,8 +6,8 @@
         v-for="cat in categories"
         :key="cat.key"
         class="sidebar-item"
-        :class="{ active: activeCategory === cat.key }"
-        @click="activeCategory = cat.key"
+        :class="{ active: activeCat === cat.key }"
+        @click="activeCat = cat.key"
       >
         <span class="sidebar-label">{{ cat.label }}</span>
       </div>
@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import type { MenuItem, CartItem, CategoryTab, MenuCategory } from '@/types/order'
 import EmptyState from './EmptyState.vue'
 
@@ -65,19 +65,24 @@ const props = defineProps<{
   categories: CategoryTab[]
   menuItems: MenuItem[]
   cart: CartItem[]
+  activeCategory?: MenuCategory | 'all'
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   addToCart: [item: MenuItem]
   increase: [id: string]
   decrease: [id: string]
+  'update:activeCategory': [value: MenuCategory | 'all']
 }>()
 
-const activeCategory = ref<MenuCategory | 'all'>('all')
+const activeCat = computed({
+  get: () => props.activeCategory ?? 'all',
+  set: (val) => emit('update:activeCategory', val)
+})
 
 const filteredItems = computed(() => {
-  if (activeCategory.value === 'all') return props.menuItems
-  return props.menuItems.filter(item => item.category === activeCategory.value)
+  if (activeCat.value === 'all') return props.menuItems
+  return props.menuItems.filter(item => item.category === activeCat.value)
 })
 
 function getQuantity(id: string): number {
