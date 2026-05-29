@@ -14,7 +14,13 @@
       <TopTipBar />
       <ShopStatusCard />
       <SearchBar v-model="searchQuery" />
-      <QuickActions @action="handleQuickAction" />
+      <QuickActions
+        :current-meal-type="currentMealType"
+        @action="handleQuickAction"
+        @update:meal-type="handleMealTypeChange"
+        @scroll-to-order="scrollToOrderForm"
+        @random-add="handleRandomAdd"
+      />
       <BenefitCards />
 
       <FavoriteSection
@@ -130,11 +136,12 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
-import type { MenuItem, CartItem, OrderForm as OrderFormType, OrderRecord, AppView } from '@/types/order'
+import type { MenuItem, CartItem, OrderForm as OrderFormType, OrderRecord, AppView, MealType } from '@/types/order'
 import { menuItems, categories } from '@/data/menu'
 import { getCart, setCart, clearCart, getPreference, setPreference, getOrderHistory, addOrderHistory, clearOrderHistory } from '@/utils/storage'
 import { sendOrderEmail } from '@/utils/email'
 import { createOrderRecord, formatOrderSummary, copyToClipboard, restoreCartFromRecord, restoreFormFromRecord } from '@/utils/order'
+import { getCurrentMealType } from '@/utils/meal'
 
 import AppHeader from '@/components/AppHeader.vue'
 import WelcomeCard from '@/components/WelcomeCard.vue'
@@ -168,11 +175,16 @@ const latestOrder = ref<OrderRecord | null>(null)
 const orderHistory = ref<OrderRecord[]>([])
 const menuRef = ref<HTMLElement | null>(null)
 const cartPanelRef = ref<InstanceType<typeof CartPanel> | null>(null)
+const currentMealType = ref<MealType>('anytime')
 
 const defaultForm: OrderFormType = {
   nickname: '小鸡毛',
+  mealType: getCurrentMealType(),
   mealTime: 'now',
   customMealTime: '',
+  scheduleType: 'now',
+  scheduledDate: '',
+  scheduledTime: '',
   spicyLevel: 'none',
   deliveryType: 'cook',
   mood: 'happy',
@@ -262,6 +274,7 @@ onMounted(() => {
   const savedPref = getPreference()
   if (savedPref) orderForm.value = { ...defaultForm, ...savedPref }
   orderHistory.value = getOrderHistory()
+  currentMealType.value = orderForm.value.mealType as MealType || 'anytime'
 })
 
 // Random recommend
@@ -382,6 +395,60 @@ function handleQuickAction(key: string) {
       }
       break
     }
+  }
+}
+
+// QuickActions new event handlers
+function handleMealTypeChange(mealType: MealType) {
+  currentMealType.value = mealType
+  orderForm.value.mealType = mealType
+}
+
+function scrollToOrderForm() {
+  if (cart.value.length === 0) {
+    errorMessage.value = '先选点菜再去下单哦～'
+    setTimeout(() => { errorMessage.value = '' }, 2000)
+    return
+  }
+  currentView.value = 'order'
+}
+
+function handleRandomAdd() {
+  const count = Math.floor(Math.random() * 3) + 2 // 2-4 items
+  const nonSpecial = menuItems.filter(i => i.category !== 'special')
+  const usedIds = new Set(cart.value.map(i => i.id))
+
+  // Prefer categories matching current meal type
+  let preferred: MenuItem[] = []
+  let others: MenuItem[] = []
+
+  if (currentMealType.value === 'breakfast') {
+    preferred = nonSpecial.filter(i => ['breakfast', 'staple'].includes(i.category) && !usedIds.has(i.id))
+    others = nonSpecial.filter(i => !['breakfast', 'staple', 'special'].includes(i.category) && !usedIds.has(i.id))
+  } else if (currentMealType.value === 'lunch' || currentMealType.value === 'dinner') {
+    preferred = nonSpecial.filter(i => ['home', 'meat', 'bbq', 'staple'].includes(i.category) && !usedIds.has(i.id))
+    others = nonSpecial.filter(i => !['home', 'meat', 'bbq', 'staple', 'special'].includes(i.category) && !usedIds.has(i.id))
+  } else if (currentMealType.value === 'lateNight') {
+    preferred = nonSpecial.filter(i => ['snack', 'bbq', 'drink'].includes(i.category) && !usedIds.has(i.id))
+    others = nonSpecial.filter(i => !['snack', 'bbq', 'drink', 'special'].includes(i.category) && !usedIds.has(i.id))
+  } else {
+    preferred = nonSpecial.filter(i => !usedIds.has(i.id))
+    others = []
+  }
+
+  preferred.sort(() => Math.random() - 0.5)
+  others.sort(() => Math.random() - 0.5)
+  const pool = [...preferred, ...others]
+
+  let added = 0
+  for (const item of pool) {
+    if (added >= count) break
+    addToCart(item)
+    added++
+  }
+
+  if (added > 0) {
+    showSuccessToast(`已随机加入 ${added} 道菜～`)
   }
 }
 

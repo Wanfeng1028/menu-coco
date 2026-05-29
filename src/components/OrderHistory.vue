@@ -20,14 +20,22 @@
       >
         <div class="card-header" @click="toggleExpand(order.id)">
           <div class="card-summary">
-            <span class="card-id">{{ order.id }}</span>
+            <span class="card-meal-type">{{ getMealTypeLabel(order.mealType) }}</span>
             <span class="card-time">{{ order.submittedAt }}</span>
+          </div>
+          <div class="card-schedule">
+            <span class="schedule-text">{{ getScheduleTypeLabel(order.scheduleType) }}
+              <template v-if="order.scheduleType === 'specific' && order.scheduledDate">
+                · {{ order.scheduledDate }} {{ order.scheduledTime }}
+              </template>
+            </span>
           </div>
           <div class="card-dishes">
             <span class="dish-text">
               {{ order.cartItems.slice(0, 3).map(i => i.name).join('、') }}
-              <template v-if="order.cartItems.length > 3">等{{ order.cartItems.length }}道菜</template>
+              <template v-if="order.cartItems.length > 3">等</template>
             </span>
+            <span class="dish-count">{{ order.cartItems.length }}道菜</span>
           </div>
           <div class="card-tags">
             <span class="tag mood-tag">{{ getMoodLabel(order.form.mood) }}</span>
@@ -51,6 +59,26 @@
             </div>
 
             <div class="detail-info">
+              <div class="info-row">
+                <span class="info-label">餐次</span>
+                <span class="info-value">{{ getMealTypeLabel(order.mealType) }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">预约方式</span>
+                <span class="info-value">{{ getScheduleTypeLabel(order.scheduleType) }}</span>
+              </div>
+              <div v-if="order.scheduleType === 'specific' && order.scheduledDate" class="info-row">
+                <span class="info-label">预约时间</span>
+                <span class="info-value">{{ order.scheduledDate }} {{ order.scheduledTime }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">菜品数量</span>
+                <span class="info-value">{{ order.cartItems.length }}道菜</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">提交时间</span>
+                <span class="info-value">{{ order.submittedAt }}</span>
+              </div>
               <div class="info-row">
                 <span class="info-label">宝宝昵称</span>
                 <span class="info-value">{{ order.form.nickname || 'Coco' }}</span>
@@ -95,6 +123,7 @@
 import { ref } from 'vue'
 import type { OrderRecord } from '@/types/order'
 import { getMealTimeLabel, getSpicyLabel, getDeliveryLabel, getMoodLabel } from '@/utils/time'
+import { getMealTypeLabel, getScheduleTypeLabel } from '@/utils/meal'
 
 defineProps<{
   orders: OrderRecord[]
@@ -227,13 +256,13 @@ function handleClear() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: $spacing-sm;
+  margin-bottom: $spacing-xs;
 }
 
-.card-id {
-  font-size: $font-xs;
-  color: $text-hint;
-  font-family: monospace;
+.card-meal-type {
+  font-size: $font-sm;
+  font-weight: 600;
+  color: $pink-500;
 }
 
 .card-time {
@@ -241,7 +270,22 @@ function handleClear() {
   color: $text-hint;
 }
 
+.card-schedule {
+  margin-bottom: $spacing-sm;
+}
+
+.schedule-text {
+  font-size: $font-xs;
+  color: $text-secondary;
+  background: $gray-50;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-full;
+}
+
 .card-dishes {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
   margin-bottom: $spacing-sm;
 }
 
@@ -249,6 +293,17 @@ function handleClear() {
   font-size: $font-sm;
   font-weight: 500;
   color: $text-primary;
+  flex: 1;
+}
+
+.dish-count {
+  flex-shrink: 0;
+  font-size: $font-xs;
+  color: $pink-400;
+  font-weight: 600;
+  background: $pink-50;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-full;
 }
 
 .card-tags {

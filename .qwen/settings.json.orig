@@ -11,7 +11,15 @@
       "Bash(git remote *)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Agent(general-purpose)"
+      "Agent(general-purpose)",
+      "Bash(git push)",
+      "Bash(rd *)",
+      "Bash(dir *)",
+      "Bash(findstr *)",
+      "Bash(type *)",
+      "Bash(git diff *)",
+      "Bash(del *)",
+      "Bash(powershell *)"
     ]
   },
   "$version": 4

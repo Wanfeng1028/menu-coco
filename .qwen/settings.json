@@ -12,7 +12,15 @@
       "Bash(git add *)",
       "Bash(git commit *)",
       "Agent(general-purpose)",
-      "Bash(git push)"
+      "Bash(git push)",
+      "Bash(rd *)",
+      "Bash(dir *)",
+      "Bash(findstr *)",
+      "Bash(type *)",
+      "Bash(git diff *)",
+      "Bash(del *)",
+      "Bash(powershell *)",
+      "Bash(node *)"
     ]
   },
   "$version": 4

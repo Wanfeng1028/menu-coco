@@ -32,8 +32,12 @@ export interface CartItem extends MenuItem {
 
 export interface OrderForm {
   nickname: string
+  mealType: MealType
   mealTime: string
   customMealTime?: string
+  scheduleType: 'now' | 'later' | 'oneHour' | 'specific'
+  scheduledDate: string
+  scheduledTime: string
   spicyLevel: string
   deliveryType: string
   mood: string
@@ -52,6 +56,11 @@ export interface OrderRecord {
   submittedAt: string
   status: 'sent'
   emailSent: boolean
+  mealType: MealType
+  scheduleType: 'now' | 'later' | 'specific'
+  scheduledDate: string
+  scheduledTime: string
+  resolvedScheduledTime: string
 }
 
 export type AppView = 'menu' | 'order' | 'success' | 'history'

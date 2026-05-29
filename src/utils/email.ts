@@ -1,6 +1,7 @@
 import emailjs from '@emailjs/browser'
 import type { CartItem, OrderForm } from '@/types/order'
 import { formatDateTime, getMealTimeLabel, getSpicyLabel, getDeliveryLabel, getMoodLabel } from './time'
+import { getMealTypeLabel, getScheduleTypeLabel } from './meal'
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
@@ -26,6 +27,11 @@ export async function sendOrderEmail(
     to_name: '小鸡毛',
     from_name: form.nickname || 'Coco',
     menu_list: menuList,
+    meal_type: getMealTypeLabel(form.mealType || ''),
+    schedule_type: getScheduleTypeLabel(form.scheduleType || 'now'),
+    scheduled_time: form.scheduleType === 'specific' && form.scheduledDate
+      ? `${form.scheduledDate} ${form.scheduledTime || ''}`
+      : '',
     meal_time: getMealTimeLabel(form.mealTime, form.customMealTime),
     spicy_level: getSpicyLabel(form.spicyLevel),
     delivery_type: getDeliveryLabel(form.deliveryType),

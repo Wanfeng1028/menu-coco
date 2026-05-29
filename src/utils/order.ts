@@ -1,5 +1,6 @@
-import type { CartItem, OrderForm, OrderRecord } from '@/types/order'
+import type { CartItem, OrderForm, OrderRecord, MealType } from '@/types/order'
 import { formatDateTime, getMealTimeLabel, getSpicyLabel, getDeliveryLabel, getMoodLabel } from './time'
+import { getCurrentMealType, getMealTypeLabel, getScheduleTypeLabel, resolveScheduledTime } from './meal'
 
 export function generateOrderId(): string {
   const now = new Date()
@@ -13,13 +14,25 @@ export function generateOrderId(): string {
 }
 
 export function createOrderRecord(cart: CartItem[], form: OrderForm, emailSent = true): OrderRecord {
+  const now = new Date()
+  const mealType: MealType = (form.mealType || getCurrentMealType()) as MealType
+  const scheduleType = (form.scheduleType || 'now') as 'now' | 'later' | 'specific'
+  const scheduledDate = form.scheduledDate || ''
+  const scheduledTime = form.scheduledTime || ''
+  const resolvedTime = resolveScheduledTime(scheduleType, scheduledDate, scheduledTime)
+
   return {
     id: generateOrderId(),
     cartItems: cart.map(item => ({ ...item })),
     form: { ...form },
-    submittedAt: formatDateTime(),
+    submittedAt: formatDateTime(now),
     status: 'sent',
-    emailSent
+    emailSent,
+    mealType,
+    scheduleType,
+    scheduledDate,
+    scheduledTime,
+    resolvedScheduledTime: resolvedTime.toISOString()
   }
 }
 
@@ -34,6 +47,11 @@ export function formatOrderSummary(record: OrderRecord): string {
     lines.push(`${index + 1}. ${item.emoji} ${item.name} × ${item.quantity}`)
   })
   lines.push('')
+  lines.push(`餐次：${getMealTypeLabel(record.form.mealType || '')}`)
+  lines.push(`投喂方式：${getScheduleTypeLabel(record.form.scheduleType || 'now')}`)
+  if (record.form.scheduleType === 'specific' && record.form.scheduledDate) {
+    lines.push(`指定时间：${record.form.scheduledDate} ${record.form.scheduledTime || ''}`)
+  }
   lines.push(`希望时间：${getMealTimeLabel(record.form.mealTime, record.form.customMealTime)}`)
   lines.push(`辣度：${getSpicyLabel(record.form.spicyLevel)}`)
   lines.push(`获取方式：${getDeliveryLabel(record.form.deliveryType)}`)
@@ -72,5 +90,17 @@ export function restoreCartFromRecord(record: OrderRecord): CartItem[] {
 }
 
 export function restoreFormFromRecord(record: OrderRecord): OrderForm {
-  return { ...record.form }
+  return {
+    nickname: record.form.nickname ?? '',
+    mealType: record.mealType,
+    mealTime: record.form.mealTime ?? 'now',
+    customMealTime: record.form.customMealTime ?? '',
+    scheduleType: record.scheduleType,
+    scheduledDate: record.scheduledDate,
+    scheduledTime: record.scheduledTime,
+    spicyLevel: record.form.spicyLevel ?? 'none',
+    deliveryType: record.form.deliveryType ?? 'cook',
+    mood: record.form.mood ?? 'happy',
+    note: record.form.note ?? ''
+  }
 }

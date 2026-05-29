@@ -27,6 +27,56 @@
         />
       </div>
 
+      <!-- 餐次选择 -->
+      <div class="field">
+        <label class="field-label">🍽️ 想吃哪一顿</label>
+        <div class="option-group">
+          <button
+            v-for="option in mealTypeOptions"
+            :key="option.value"
+            class="option-btn"
+            :class="{ active: form.mealType === option.value }"
+            @click="form.mealType = option.value"
+          >
+            {{ option.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- 投喂方式选择 -->
+      <div class="field">
+        <label class="field-label">⏰ 什么时候想吃</label>
+        <div class="option-group">
+          <button
+            v-for="option in scheduleOptions"
+            :key="option.value"
+            class="option-btn"
+            :class="{ active: form.scheduleType === option.value }"
+            @click="form.scheduleType = option.value as 'now' | 'later' | 'specific'"
+          >
+            {{ option.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- 指定时间：日期 + 时间选择器 -->
+      <div v-if="form.scheduleType === 'specific'" class="field">
+        <label class="field-label">选择具体时间</label>
+        <div class="datetime-picker">
+          <input
+            v-model="form.scheduledDate"
+            class="field-input"
+            type="date"
+            :min="todayStr"
+          />
+          <input
+            v-model="form.scheduledTime"
+            class="field-input"
+            type="time"
+          />
+        </div>
+      </div>
+
       <!-- 希望吃饭时间 -->
       <div class="field">
         <label class="field-label">希望吃饭时间</label>
@@ -126,7 +176,7 @@
 </template>
 
 <script setup lang="ts">
-import type { OrderForm as OrderFormType, CartItem } from '@/types/order'
+import type { OrderForm as OrderFormType, CartItem, MealType } from '@/types/order'
 
 defineProps<{
   form: OrderFormType
@@ -138,6 +188,22 @@ defineEmits<{
   back: []
   submit: []
 }>()
+
+const todayStr = new Date().toISOString().split('T')[0]
+
+const mealTypeOptions: { label: string; value: MealType }[] = [
+  { label: '🌅 早餐', value: 'breakfast' },
+  { label: '☀️ 午餐', value: 'lunch' },
+  { label: '🌙 晚餐', value: 'dinner' },
+  { label: '🌃 夜宵', value: 'lateNight' }
+]
+
+const scheduleOptions: { label: string; value: 'now' | 'later' | 'oneHour' | 'specific' }[] = [
+  { label: '🤤 现在就想吃', value: 'now' },
+  { label: '⏳ 半小时后', value: 'later' },
+  { label: '🕐 一小时后', value: 'oneHour' },
+  { label: '📅 指定时间', value: 'specific' }
+]
 
 const mealTimeOptions = [
   { label: '现在', value: 'now' },
@@ -175,6 +241,10 @@ const moodOptions = [
   border-radius: $radius-xl;
   padding: $spacing-2xl;
   box-shadow: $shadow-card;
+
+  @media (max-width: 375px) {
+    padding: $spacing-lg;
+  }
 }
 
 .form-header {
@@ -274,6 +344,7 @@ const moodOptions = [
   border: 1px solid $gray-200;
   font-size: $font-base;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 
   &:focus {
     border-color: $pink-300;
@@ -295,6 +366,19 @@ const moodOptions = [
   &:focus {
     border-color: $pink-300;
     background: $white;
+  }
+}
+
+.datetime-picker {
+  display: flex;
+  gap: $spacing-sm;
+
+  .field-input {
+    flex: 1;
+  }
+
+  @media (max-width: 375px) {
+    flex-direction: column;
   }
 }
 
