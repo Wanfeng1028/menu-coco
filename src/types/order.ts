@@ -11,6 +11,8 @@ export type MenuCategory =
   | 'breakfast'
   | 'special'
 
+export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'lateNight' | 'anytime'
+
 export interface MenuItem {
   id: string
   name: string
