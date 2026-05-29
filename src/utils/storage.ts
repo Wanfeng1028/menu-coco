@@ -1,8 +1,12 @@
 import type { CartItem, OrderForm, OrderRecord } from '@/types/order'
 
+export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'lateNight' | 'anytime'
+
 const CART_KEY = 'menu-coco-cart'
 const PREFERENCE_KEY = 'menu-coco-order-preference'
 const ORDER_HISTORY_KEY = 'menu-coco-order-history'
+const MEAL_PREFERENCE_KEY = 'menu-coco-meal-preference'
+const SCHEDULE_PREFERENCE_KEY = 'menu-coco-schedule-preference'
 
 function getStorage<T>(key: string): T | null {
   try {
@@ -73,4 +77,34 @@ export function removeOrderHistory(id: string): void {
 
 export function clearOrderHistory(): void {
   removeStorage(ORDER_HISTORY_KEY)
+}
+
+export function saveMealPreference(mealType: MealType): void {
+  setStorage(MEAL_PREFERENCE_KEY, mealType)
+}
+
+export function loadMealPreference(): MealType | null {
+  return getStorage<MealType>(MEAL_PREFERENCE_KEY)
+}
+
+interface SchedulePreference {
+  scheduleType: string
+  scheduledDate: string
+  scheduledTime: string
+}
+
+export function saveSchedulePreference(
+  scheduleType: string,
+  scheduledDate: string,
+  scheduledTime: string,
+): void {
+  setStorage<SchedulePreference>(SCHEDULE_PREFERENCE_KEY, {
+    scheduleType,
+    scheduledDate,
+    scheduledTime,
+  })
+}
+
+export function loadSchedulePreference(): SchedulePreference | null {
+  return getStorage<SchedulePreference>(SCHEDULE_PREFERENCE_KEY)
 }

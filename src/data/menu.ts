@@ -27,7 +27,8 @@ export const menuItems: MenuItem[] = [
     tags: ['招牌', '常点', '甜甜', '肉肉'],
     loveValue: 5,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'shrimp',
@@ -39,7 +40,8 @@ export const menuItems: MenuItem[] = [
     tags: ['常点', '下饭', '清爽'],
     loveValue: 4,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'egg-yolk-pumpkin',
@@ -49,7 +51,8 @@ export const menuItems: MenuItem[] = [
     description: '外酥里糯，一口一个满足',
     emoji: '🎃',
     tags: ['甜甜', '推荐'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'shredded-potato',
@@ -60,7 +63,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥔',
     tags: ['常点', '下饭', '热乎'],
     loveValue: 3,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'shredded-beef',
@@ -71,7 +75,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥩',
     tags: ['肉肉', '下饭', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'corn-kernel',
@@ -81,7 +86,8 @@ export const menuItems: MenuItem[] = [
     description: '甜甜脆脆，小零食也能当菜吃',
     emoji: '🌽',
     tags: ['甜甜', '清爽'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'scrambled-eggs-tomato',
@@ -93,7 +99,8 @@ export const menuItems: MenuItem[] = [
     tags: ['招牌', '常点', '下饭'],
     loveValue: 4,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'green-pepper-potato',
@@ -103,7 +110,8 @@ export const menuItems: MenuItem[] = [
     description: '脆脆爽爽，配米饭一绝',
     emoji: '🫑',
     tags: ['下饭', '清爽'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'dry-pot-cauliflower',
@@ -114,7 +122,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥦',
     tags: ['下饭', '热乎', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'di-san-xian',
@@ -125,7 +134,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍆',
     tags: ['下饭', '招牌'],
     loveValue: 4,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'mapo-tofu',
@@ -136,7 +146,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🫕',
     tags: ['辣辣', '下饭', '热乎'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'braised-eggplant',
@@ -146,7 +157,8 @@ export const menuItems: MenuItem[] = [
     description: '软软糯糯，酱汁拌饭超好吃',
     emoji: '🍆',
     tags: ['下饭', '热乎'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'yu-xiang-shredded-pork',
@@ -157,7 +169,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥢',
     tags: ['招牌', '下饭', '肉肉'],
     loveValue: 5,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'kung-pao-chicken',
@@ -168,7 +181,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥜',
     tags: ['招牌', '肉肉', '辣辣'],
     loveValue: 5,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'tomato-beef-brisket',
@@ -179,7 +193,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍅',
     tags: ['热乎', '肉肉', '推荐'],
     loveValue: 5,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'garlic-broccoli',
@@ -189,7 +204,8 @@ export const menuItems: MenuItem[] = [
     description: '翠绿清爽，吃肉也要配点青菜',
     emoji: '🥦',
     tags: ['清爽', '健康'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'sour-spicy-cabbage',
@@ -199,7 +215,8 @@ export const menuItems: MenuItem[] = [
     description: '酸辣开胃，简单又好吃',
     emoji: '🥬',
     tags: ['辣辣', '下饭', '清爽'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'mushroom-greens',
@@ -209,7 +226,8 @@ export const menuItems: MenuItem[] = [
     description: '鲜香可口，清淡也好吃',
     emoji: '🍄',
     tags: ['清爽', '健康'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['lunch', 'dinner']
   },
 
   // ========== 肉肉专区 meat ==========
@@ -223,7 +241,8 @@ export const menuItems: MenuItem[] = [
     tags: ['招牌', '肉肉', '下饭'],
     loveValue: 6,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'sweet-sour-ribs',
@@ -235,7 +254,8 @@ export const menuItems: MenuItem[] = [
     tags: ['招牌', '甜甜', '肉肉'],
     loveValue: 6,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'garlic-ribs',
@@ -245,7 +265,8 @@ export const menuItems: MenuItem[] = [
     description: '蒜香四溢，外酥里嫩',
     emoji: '🧄',
     tags: ['肉肉', '推荐'],
-    loveValue: 5
+    loveValue: 5,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'black-pepper-beef',
@@ -256,7 +277,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥩',
     tags: ['肉肉', '推荐'],
     loveValue: 6,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'stir-fry-beef',
@@ -266,7 +288,8 @@ export const menuItems: MenuItem[] = [
     description: '大火快炒，肉香四溢',
     emoji: '🥘',
     tags: ['肉肉', '下饭', '辣辣'],
-    loveValue: 5
+    loveValue: 5,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'spicy-chicken',
@@ -276,7 +299,8 @@ export const menuItems: MenuItem[] = [
     description: '辣椒里找鸡肉，越吃越上头',
     emoji: '🌶️',
     tags: ['辣辣', '肉肉'],
-    loveValue: 5
+    loveValue: 5,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'braised-chicken',
@@ -287,7 +311,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍗',
     tags: ['常点', '肉肉', '下饭'],
     loveValue: 5,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'orleans-wings',
@@ -298,7 +323,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍗',
     tags: ['常点', '肉肉'],
     loveValue: 5,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'pan-fried-chicken-breast',
@@ -308,7 +334,8 @@ export const menuItems: MenuItem[] = [
     description: '低脂又好吃，健身也要好好吃饭',
     emoji: '🥩',
     tags: ['健康', '肉肉'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'cumin-lamb',
@@ -319,7 +346,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🐑',
     tags: ['肉肉', '招牌'],
     loveValue: 6,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'mei-cai-kou-rou',
@@ -329,7 +357,8 @@ export const menuItems: MenuItem[] = [
     description: '肥而不腻，梅菜的香气刚刚好',
     emoji: '🥢',
     tags: ['肉肉', '下饭'],
-    loveValue: 5
+    loveValue: 5,
+    mealTypes: ['lunch', 'dinner']
   },
   {
     id: 'potato-beef-stew',
@@ -340,7 +369,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥔',
     tags: ['热乎', '肉肉', '推荐'],
     loveValue: 6,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner']
   },
 
   // ========== 烧烤 bbq ==========
@@ -353,7 +383,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍖',
     tags: ['常点', '肉肉'],
     loveValue: 4,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-beef',
@@ -365,7 +396,8 @@ export const menuItems: MenuItem[] = [
     tags: ['招牌', '肉肉', '推荐'],
     loveValue: 5,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-lamb',
@@ -375,7 +407,8 @@ export const menuItems: MenuItem[] = [
     description: '孜然飘香，冬日暖胃',
     emoji: '🐑',
     tags: ['肉肉', '热乎'],
-    loveValue: 4
+    loveValue: 4,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'skewers',
@@ -386,7 +419,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍢',
     tags: ['常点', '肉肉', '夜宵'],
     loveValue: 4,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-chicken-wings',
@@ -397,7 +431,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍗',
     tags: ['常点', '肉肉'],
     loveValue: 5,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-pork-belly',
@@ -408,7 +443,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥓',
     tags: ['肉肉', '推荐'],
     loveValue: 5,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-beef-skewer',
@@ -419,7 +455,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍢',
     tags: ['肉肉', '招牌'],
     loveValue: 5,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-lamb-skewer',
@@ -429,7 +466,8 @@ export const menuItems: MenuItem[] = [
     description: '香喷喷的夜宵快乐，适合馋嘴时刻',
     emoji: '🍢',
     tags: ['肉肉', '夜宵'],
-    loveValue: 5
+    loveValue: 5,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-rice-cake',
@@ -439,7 +477,8 @@ export const menuItems: MenuItem[] = [
     description: '外脆里糯，刷上酱汁超好吃',
     emoji: '🍡',
     tags: ['甜甜', '夜宵'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-corn',
@@ -449,7 +488,8 @@ export const menuItems: MenuItem[] = [
     description: '甜甜糯糯，烧烤必点',
     emoji: '🌽',
     tags: ['甜甜', '清爽'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-potato-slice',
@@ -459,7 +499,8 @@ export const menuItems: MenuItem[] = [
     description: '薄薄脆脆，撒上辣椒面绝了',
     emoji: '🥔',
     tags: ['夜宵', '下饭'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-enoki',
@@ -469,7 +510,8 @@ export const menuItems: MenuItem[] = [
     description: '蒜蓉金针菇，鲜到眉毛掉',
     emoji: '🍄',
     tags: ['清爽', '推荐'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-eggplant',
@@ -479,7 +521,8 @@ export const menuItems: MenuItem[] = [
     description: '蒜蓉烤茄子，软糯入味',
     emoji: '🍆',
     tags: ['下饭', '夜宵'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-sausage',
@@ -490,7 +533,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🌭',
     tags: ['常点', '夜宵'],
     loveValue: 3,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['dinner', 'lateNight']
   },
   {
     id: 'grilled-squid',
@@ -501,7 +545,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🦑',
     tags: ['招牌', '夜宵'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['dinner', 'lateNight']
   },
 
   // ========== 主食 staple ==========
@@ -514,7 +559,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍚',
     tags: ['主食', '常点'],
     loveValue: 2,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'fried-rice',
@@ -525,7 +571,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍳',
     tags: ['主食', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'noodles',
@@ -535,7 +582,8 @@ export const menuItems: MenuItem[] = [
     description: '嗦一口面条，烦恼全跑掉',
     emoji: '🍜',
     tags: ['主食', '热乎'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'dumplings',
@@ -546,7 +594,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥟',
     tags: ['主食', '招牌'],
     loveValue: 4,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'plain-rice',
@@ -556,7 +605,8 @@ export const menuItems: MenuItem[] = [
     description: '白白胖胖，配什么都好吃',
     emoji: '🍚',
     tags: ['主食'],
-    loveValue: 1
+    loveValue: 1,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'egg-fried-rice',
@@ -567,7 +617,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍳',
     tags: ['主食', '常点'],
     loveValue: 3,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'yangzhou-fried-rice',
@@ -578,7 +629,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍳',
     tags: ['主食', '招牌', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'beef-fried-rice',
@@ -588,7 +640,8 @@ export const menuItems: MenuItem[] = [
     description: '大块牛肉配上粒粒米饭，满足感拉满',
     emoji: '🥩',
     tags: ['主食', '肉肉'],
-    loveValue: 4
+    loveValue: 4,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'tomato-egg-noodles',
@@ -598,7 +651,8 @@ export const menuItems: MenuItem[] = [
     description: '酸甜汤底，暖暖的一碗面',
     emoji: '🍅',
     tags: ['主食', '热乎'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'beef-noodles',
@@ -610,7 +664,8 @@ export const menuItems: MenuItem[] = [
     tags: ['主食', '肉肉', '招牌'],
     loveValue: 5,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'zhajiang-noodles',
@@ -620,7 +675,8 @@ export const menuItems: MenuItem[] = [
     description: '浓郁酱香，拌一拌超好吃',
     emoji: '🍝',
     tags: ['主食', '下饭'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'sour-spicy-noodles',
@@ -631,7 +687,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍜',
     tags: ['主食', '辣辣'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'wonton',
@@ -641,7 +698,8 @@ export const menuItems: MenuItem[] = [
     description: '皮薄馅嫩，汤鲜味美',
     emoji: '🥟',
     tags: ['主食', '热乎'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'boiled-dumplings',
@@ -651,7 +709,8 @@ export const menuItems: MenuItem[] = [
     description: '热腾腾的饺子，蘸醋吃绝了',
     emoji: '🥟',
     tags: ['主食', '热乎', '常点'],
-    loveValue: 4
+    loveValue: 4,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'xiaolongbao',
@@ -663,7 +722,8 @@ export const menuItems: MenuItem[] = [
     tags: ['主食', '招牌', '推荐'],
     loveValue: 5,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'egg-pancake',
@@ -673,7 +733,8 @@ export const menuItems: MenuItem[] = [
     description: '外酥里嫩，早餐的快乐',
     emoji: '🥞',
     tags: ['主食', '常点'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
 
   // ========== 小吃夜宵 snack ==========
@@ -686,7 +747,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍗',
     tags: ['常点', '肉肉'],
     loveValue: 4,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'french-fries',
@@ -698,7 +760,8 @@ export const menuItems: MenuItem[] = [
     tags: ['常点', '推荐'],
     loveValue: 3,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'popcorn-chicken',
@@ -708,7 +771,8 @@ export const menuItems: MenuItem[] = [
     description: '一口一个，追剧必备',
     emoji: '🍿',
     tags: ['肉肉', '夜宵'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'grab-cake',
@@ -719,7 +783,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥞',
     tags: ['常点', '夜宵'],
     loveValue: 3,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'takoyaki',
@@ -730,7 +795,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🐙',
     tags: ['招牌', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'wolf-tooth-potato',
@@ -740,7 +806,8 @@ export const menuItems: MenuItem[] = [
     description: '香辣入味，街边小吃之王',
     emoji: '🥔',
     tags: ['辣辣', '夜宵'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'oden',
@@ -751,7 +818,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍢',
     tags: ['热乎', '常点'],
     loveValue: 3,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'fried-skewers',
@@ -761,7 +829,8 @@ export const menuItems: MenuItem[] = [
     description: '万物皆可炸，快乐加倍',
     emoji: '🍢',
     tags: ['夜宵', '肉肉'],
-    loveValue: 4
+    loveValue: 4,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'ham-sausage',
@@ -771,7 +840,8 @@ export const menuItems: MenuItem[] = [
     description: '童年回忆，炸一下更好吃',
     emoji: '🌭',
     tags: ['夜宵'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'malatang',
@@ -782,7 +852,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🫕',
     tags: ['热乎', '辣辣', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'luosifen',
@@ -793,7 +864,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍜',
     tags: ['辣辣', '招牌'],
     loveValue: 4,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'fried-rice-cake',
@@ -803,7 +875,8 @@ export const menuItems: MenuItem[] = [
     description: '外脆里糯，刷上甜辣酱',
     emoji: '🍡',
     tags: ['甜甜', '夜宵'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
 
   // ========== 饮料 drink ==========
@@ -817,7 +890,8 @@ export const menuItems: MenuItem[] = [
     tags: ['招牌', '甜甜', '饮料'],
     loveValue: 5,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'cola',
@@ -828,7 +902,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥤',
     tags: ['常点', '饮料'],
     loveValue: 3,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'fruit-tea',
@@ -838,7 +913,8 @@ export const menuItems: MenuItem[] = [
     description: '清新解腻，维C满满',
     emoji: '🍹',
     tags: ['清爽', '饮料'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'yogurt',
@@ -848,7 +924,8 @@ export const menuItems: MenuItem[] = [
     description: '饭后来一杯，肠胃笑嘻嘻',
     emoji: '🥛',
     tags: ['健康', '饮料'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'pearl-milk-tea',
@@ -860,7 +937,8 @@ export const menuItems: MenuItem[] = [
     tags: ['招牌', '甜甜', '饮料'],
     loveValue: 5,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'taro-milk-tea',
@@ -871,7 +949,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🧋',
     tags: ['甜甜', '饮料', '推荐'],
     loveValue: 5,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'mango-pomelo-sago',
@@ -882,7 +961,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥭',
     tags: ['甜甜', '饮料', '招牌'],
     loveValue: 5,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'lemon-tea',
@@ -892,7 +972,8 @@ export const menuItems: MenuItem[] = [
     description: '酸酸甜甜，解腻神器',
     emoji: '🍋',
     tags: ['清爽', '饮料'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'iced-cola',
@@ -903,7 +984,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥤',
     tags: ['常点', '饮料'],
     loveValue: 3,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'orange-juice',
@@ -913,7 +995,8 @@ export const menuItems: MenuItem[] = [
     description: '鲜榨维C，活力满满',
     emoji: '🍊',
     tags: ['健康', '饮料'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'strawberry-yogurt',
@@ -924,7 +1007,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍓',
     tags: ['甜甜', '饮料', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'grape-bobo',
@@ -934,7 +1018,8 @@ export const menuItems: MenuItem[] = [
     description: '葡萄果肉加上Q弹啵啵，好喝到转圈',
     emoji: '🍇',
     tags: ['甜甜', '饮料'],
-    loveValue: 4
+    loveValue: 4,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'peach-oolong',
@@ -945,7 +1030,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍑',
     tags: ['清爽', '饮料', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'hot-milk',
@@ -955,7 +1041,8 @@ export const menuItems: MenuItem[] = [
     description: '睡前一杯，晚安好梦',
     emoji: '🥛',
     tags: ['健康', '饮料', '热乎'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'iced-americano',
@@ -965,7 +1052,8 @@ export const menuItems: MenuItem[] = [
     description: '打工人的续命水，苦中作乐',
     emoji: '☕',
     tags: ['饮料', '常点'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
   {
     id: 'multi-meat-grape',
@@ -976,7 +1064,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍇',
     tags: ['甜甜', '饮料', '招牌'],
     loveValue: 5,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner', 'lateNight']
   },
 
   // ========== 甜品 dessert ==========
@@ -989,7 +1078,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍰',
     tags: ['甜甜', '推荐'],
     loveValue: 5,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'tiramisu',
@@ -1000,7 +1090,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍰',
     tags: ['甜甜', '招牌'],
     loveValue: 5,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'mango-crepe',
@@ -1011,7 +1102,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥭',
     tags: ['甜甜', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'egg-tart',
@@ -1022,7 +1114,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥧',
     tags: ['甜甜', '常点'],
     loveValue: 3,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'double-skin-milk',
@@ -1032,7 +1125,8 @@ export const menuItems: MenuItem[] = [
     description: '滑嫩如丝，甜到心里',
     emoji: '🍮',
     tags: ['甜甜', '招牌'],
-    loveValue: 4
+    loveValue: 4,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'pudding',
@@ -1042,7 +1136,8 @@ export const menuItems: MenuItem[] = [
     description: 'Q弹可爱，一口一个',
     emoji: '🍮',
     tags: ['甜甜'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'ice-cream',
@@ -1053,7 +1148,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍦',
     tags: ['甜甜', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'red-bean-rice-ball',
@@ -1063,7 +1159,8 @@ export const menuItems: MenuItem[] = [
     description: '软糯小丸子配上甜蜜红豆',
     emoji: '🍡',
     tags: ['甜甜', '热乎'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'taro-grass-jelly',
@@ -1074,7 +1171,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍨',
     tags: ['甜甜', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
   {
     id: 'cream-puff',
@@ -1084,7 +1182,8 @@ export const menuItems: MenuItem[] = [
     description: '咬一口奶油爆浆，幸福感爆棚',
     emoji: '🥐',
     tags: ['甜甜'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['lunch', 'dinner', 'lateNight']
   },
 
   // ========== 健康清淡 light ==========
@@ -1096,7 +1195,8 @@ export const menuItems: MenuItem[] = [
     description: '清爽无负担，健康每一天',
     emoji: '🥗',
     tags: ['健康', '轻食', '清爽'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'chicken-breast-salad',
@@ -1106,7 +1206,8 @@ export const menuItems: MenuItem[] = [
     description: '低脂高蛋白，健身党的最爱',
     emoji: '🥗',
     tags: ['健康', '轻食', '肉肉'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'seaweed-egg-soup',
@@ -1116,7 +1217,8 @@ export const menuItems: MenuItem[] = [
     description: '清淡鲜美，暖胃首选',
     emoji: '🥣',
     tags: ['热乎', '健康'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'corn-ribs-soup',
@@ -1127,7 +1229,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🌽',
     tags: ['热乎', '健康', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'tomato-tofu-soup',
@@ -1137,7 +1240,8 @@ export const menuItems: MenuItem[] = [
     description: '酸甜开胃，豆腐嫩滑',
     emoji: '🍅',
     tags: ['热乎', '健康'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'boiled-shrimp',
@@ -1148,7 +1252,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🦐',
     tags: ['健康', '清爽', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'steamed-fish',
@@ -1158,7 +1263,8 @@ export const menuItems: MenuItem[] = [
     description: '鲜嫩可口，清淡也美味',
     emoji: '🐟',
     tags: ['健康', '清爽'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'steamed-egg',
@@ -1168,7 +1274,8 @@ export const menuItems: MenuItem[] = [
     description: '滑嫩如布丁，入口即化',
     emoji: '🥚',
     tags: ['健康', '常点'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'pumpkin-porridge',
@@ -1178,7 +1285,8 @@ export const menuItems: MenuItem[] = [
     description: '甜甜糯糯，养胃又好喝',
     emoji: '🎃',
     tags: ['健康', '甜甜', '热乎'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'millet-porridge',
@@ -1188,7 +1296,8 @@ export const menuItems: MenuItem[] = [
     description: '暖暖的一碗，胃舒服了人也舒服了',
     emoji: '🥣',
     tags: ['健康', '热乎'],
-    loveValue: 2
+    loveValue: 2,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
 
   // ========== 汤粥 soup ==========
@@ -1202,7 +1311,8 @@ export const menuItems: MenuItem[] = [
     tags: ['热乎', '常点', '招牌'],
     loveValue: 4,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'seafood-congee',
@@ -1213,7 +1323,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🦐',
     tags: ['热乎', '鲜美'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'chicken-congee',
@@ -1223,7 +1334,8 @@ export const menuItems: MenuItem[] = [
     description: '嫩滑鸡丝配上白粥，清淡养胃',
     emoji: '🐔',
     tags: ['热乎', '健康'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'silver-ear-soup',
@@ -1234,7 +1346,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍄',
     tags: ['甜甜', '健康', '推荐'],
     loveValue: 3,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'green-bean-soup',
@@ -1245,7 +1358,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🫘',
     tags: ['清爽', '解暑'],
     loveValue: 3,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'tomato-egg-soup',
@@ -1256,7 +1370,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍅',
     tags: ['热乎', '常点'],
     loveValue: 3,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'winter-melon-soup',
@@ -1266,7 +1381,8 @@ export const menuItems: MenuItem[] = [
     description: '清爽冬瓜配上鲜嫩丸子',
     emoji: '🍈',
     tags: ['热乎', '清淡'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'mushroom-soup',
@@ -1277,7 +1393,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍄',
     tags: ['热乎', '鲜美', '健康'],
     loveValue: 3,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'lotus-rib-soup',
@@ -1288,7 +1405,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍖',
     tags: ['热乎', '家常', '推荐'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'sour-spicy-soup',
@@ -1298,7 +1416,8 @@ export const menuItems: MenuItem[] = [
     description: '酸酸辣辣，开胃神器',
     emoji: '🌶️',
     tags: ['辣辣', '开胃'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'osmanthus-rice-ball',
@@ -1310,7 +1429,8 @@ export const menuItems: MenuItem[] = [
     tags: ['甜甜', '招牌'],
     loveValue: 5,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
   {
     id: 'red-date-silver-ear',
@@ -1320,7 +1440,8 @@ export const menuItems: MenuItem[] = [
     description: '红枣补血银耳养颜，甜甜的',
     emoji: '🫖',
     tags: ['甜甜', '健康'],
-    loveValue: 4
+    loveValue: 4,
+    mealTypes: ['breakfast', 'lunch', 'dinner']
   },
 
   // ========== 早餐 breakfast ==========
@@ -1334,7 +1455,8 @@ export const menuItems: MenuItem[] = [
     tags: ['早餐', '经典', '常点'],
     loveValue: 4,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast']
   },
   {
     id: 'pan-fried-buns',
@@ -1345,7 +1467,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥟',
     tags: ['早餐', '招牌'],
     loveValue: 5,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['breakfast']
   },
   {
     id: 'sandwich',
@@ -1355,7 +1478,8 @@ export const menuItems: MenuItem[] = [
     description: '简单快手，营养均衡',
     emoji: '🥪',
     tags: ['早餐', '快手'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast']
   },
   {
     id: 'tea-egg',
@@ -1366,7 +1490,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🥚',
     tags: ['早餐', '常点'],
     loveValue: 3,
-    isPopular: true
+    isPopular: true,
+    mealTypes: ['breakfast']
   },
   {
     id: 'steamed-buns',
@@ -1376,7 +1501,8 @@ export const menuItems: MenuItem[] = [
     description: '热腾腾的包子，馅料满满',
     emoji: '🥟',
     tags: ['早餐', '热乎'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast']
   },
   {
     id: 'rice-balls',
@@ -1386,7 +1512,8 @@ export const menuItems: MenuItem[] = [
     description: '糯米包裹各种馅料，饱腹感满满',
     emoji: '🍙',
     tags: ['早餐', '饱腹'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast']
   },
   {
     id: 'jianbing',
@@ -1398,7 +1525,8 @@ export const menuItems: MenuItem[] = [
     tags: ['早餐', '招牌', '推荐'],
     loveValue: 5,
     isPopular: true,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast']
   },
   {
     id: 'scallion-pancake',
@@ -1408,7 +1536,8 @@ export const menuItems: MenuItem[] = [
     description: '层层酥脆，葱香四溢',
     emoji: '🫓',
     tags: ['早餐', '酥脆'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast']
   },
   {
     id: 'ci-fan-tuan',
@@ -1419,7 +1548,8 @@ export const menuItems: MenuItem[] = [
     emoji: '🍙',
     tags: ['早餐', '经典'],
     loveValue: 4,
-    isRecommended: true
+    isRecommended: true,
+    mealTypes: ['breakfast']
   },
   {
     id: 'tofu-pudding',
@@ -1429,7 +1559,8 @@ export const menuItems: MenuItem[] = [
     description: '嫩滑豆腐配上卤汁，咸甜之争',
     emoji: '🍮',
     tags: ['早餐', '热乎'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast']
   },
   {
     id: 'brown-sugar-bun',
@@ -1439,7 +1570,8 @@ export const menuItems: MenuItem[] = [
     description: '甜甜的红糖香，软软糯糯',
     emoji: '🍞',
     tags: ['早餐', '甜甜'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast']
   },
   {
     id: 'bacon-toast',
@@ -1449,7 +1581,8 @@ export const menuItems: MenuItem[] = [
     description: '煎培根配上烤吐司，西式早餐',
     emoji: '🥓',
     tags: ['早餐', '西式'],
-    loveValue: 3
+    loveValue: 3,
+    mealTypes: ['breakfast']
   },
 
   // ========== 隐藏彩蛋 special ==========

@@ -24,6 +24,7 @@ export interface MenuItem {
   loveValue?: number
   isPopular?: boolean
   isRecommended?: boolean
+  mealTypes?: MealType[]
 }
 
 export interface CartItem extends MenuItem {
