@@ -1,0 +1,61 @@
+// Colors
+$pink-50: #fff5f7;
+$pink-100: #ffe4ec;
+$pink-200: #ffc0d0;
+$pink-300: #ffa0b8;
+$pink-400: #ff7eb3;
+$pink-500: #ff5c9e;
+$pink-gradient: linear-gradient(135deg, $pink-100 0%, $pink-50 50%, #fff 100%);
+$white: #ffffff;
+$gray-50: #fafafa;
+$gray-100: #f5f5f5;
+$gray-200: #eeeeee;
+$gray-300: #e0e0e0;
+$gray-400: #bdbdbd;
+$gray-500: #9e9e9e;
+$gray-600: #757575;
+$gray-700: #616161;
+$gray-800: #424242;
+$gray-900: #212121;
+$text-primary: #333333;
+$text-secondary: #666666;
+$text-hint: #999999;
+$success: #4caf50;
+$warning: #ff9800;
+$error: #f44336;
+
+// Border radius
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-xl: 24px;
+$radius-full: 9999px;
+
+// Shadows
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+$shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+$shadow-card: 0 2px 8px rgba(255, 126, 179, 0.15);
+
+// Font sizes
+$font-xs: 12px;
+$font-sm: 14px;
+$font-base: 16px;
+$font-lg: 18px;
+$font-xl: 20px;
+$font-2xl: 24px;
+$font-3xl: 28px;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+$spacing-xl: 20px;
+$spacing-2xl: 24px;
+$spacing-3xl: 32px;
+
+// Layout
+$content-max-width: 480px;
+$header-height: 56px;
+$cart-button-height: 56px;
