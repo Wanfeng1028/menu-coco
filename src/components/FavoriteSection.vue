@@ -1,6 +1,6 @@
 <template>
   <div class="favorite-section">
-    <h3 class="section-title">💕 小鸡毛可能想吃</h3>
+    <h3 class="section-title">💕 小白白可能想吃</h3>
     <div class="favorite-scroll">
       <div
         v-for="item in items"

@@ -7,6 +7,8 @@ export type MenuCategory =
   | 'drink'
   | 'dessert'
   | 'light'
+  | 'soup'
+  | 'breakfast'
   | 'special'
 
 export interface MenuItem {
@@ -16,7 +18,6 @@ export interface MenuItem {
   categoryName: string
   description: string
   emoji: string
-  // 新增字段
   tags?: string[]
   loveValue?: number
   isPopular?: boolean
@@ -41,3 +42,14 @@ export interface CategoryTab {
   key: MenuCategory | 'all'
   label: string
 }
+
+export interface OrderRecord {
+  id: string
+  cartItems: CartItem[]
+  form: OrderForm
+  submittedAt: string
+  status: 'sent'
+  emailSent: boolean
+}
+
+export type AppView = 'menu' | 'order' | 'success' | 'history'

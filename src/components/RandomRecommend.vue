@@ -5,7 +5,7 @@
         <Transition name="slide-up">
           <div v-if="visible" class="recommend-panel">
             <div class="panel-header">
-              <h2 class="panel-title">🎲 今天小鸡毛适合吃这些～</h2>
+              <h2 class="panel-title">🎲 今天小白白适合吃这些～</h2>
               <button class="panel-close" @click="$emit('close')">✕</button>
             </div>
 
