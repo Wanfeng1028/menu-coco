@@ -92,7 +92,7 @@ function getQuantity(id: string): number {
   gap: $spacing-sm;
   height: calc(100vh - 400px);
   min-height: 300px;
-  max-height: 500px;
+  max-height: 600px;
   background: $white;
   border-radius: $radius-lg;
   overflow: hidden;
@@ -154,8 +154,9 @@ function getQuantity(id: string): number {
   flex: 1;
   overflow-y: auto;
   padding: $spacing-sm;
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
   scrollbar-width: none;
-  
+
   &::-webkit-scrollbar {
     display: none;
   }

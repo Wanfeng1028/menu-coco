@@ -1,16 +1,5 @@
 <template>
   <Teleport to="body">
-    <!-- Floating cart button -->
-    <button
-      v-if="cartCount > 0"
-      class="cart-float-btn"
-      @click="isOpen = true"
-    >
-      <span class="float-icon">🛒</span>
-      <span class="float-text">今日投喂清单</span>
-      <span class="float-badge">{{ cartCount }}</span>
-    </button>
-
     <!-- Cart panel -->
     <Transition name="fade">
       <div v-if="isOpen" class="cart-overlay" @click.self="isOpen = false">
@@ -92,47 +81,6 @@ defineExpose({ isOpen })
 </script>
 
 <style lang="scss" scoped>
-.cart-float-btn {
-  position: fixed;
-  bottom: calc(#{$spacing-lg} + env(safe-area-inset-bottom, 0px));
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-  background: linear-gradient(135deg, $pink-400, $pink-500);
-  color: $white;
-  padding: $spacing-md $spacing-xl;
-  border-radius: $radius-full;
-  font-size: $font-sm;
-  font-weight: 500;
-  box-shadow: 0 4px 16px rgba(255, 94, 158, 0.4);
-  z-index: 100;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-
-  &:active {
-    transform: translateX(-50%) scale(0.96);
-  }
-}
-
-.float-icon {
-  font-size: $font-xl;
-}
-
-.float-badge {
-  background: $white;
-  color: $pink-500;
-  font-size: $font-xs;
-  font-weight: 700;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .cart-overlay {
   position: fixed;
   top: 0;

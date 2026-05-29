@@ -1,4 +1,13 @@
-export type MenuCategory = 'home' | 'bbq' | 'staple' | 'drink' | 'special'
+export type MenuCategory =
+  | 'home'
+  | 'meat'
+  | 'bbq'
+  | 'staple'
+  | 'snack'
+  | 'drink'
+  | 'dessert'
+  | 'light'
+  | 'special'
 
 export interface MenuItem {
   id: string

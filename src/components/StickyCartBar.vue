@@ -32,14 +32,15 @@ defineEmits<{
 <style lang="scss" scoped>
 .sticky-cart-bar {
   position: fixed;
-  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
-  width: calc(100% - 28px);
-  max-width: calc(#{$content-max-width} - 28px);
+  width: min(calc(100vw - 32px), calc(#{$content-max-width} - 32px));
+  min-height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   background: linear-gradient(135deg, $pink-400, $pink-500);
   padding: $spacing-sm $spacing-md $spacing-sm $spacing-lg;
   border-radius: $radius-full;
@@ -64,6 +65,8 @@ defineEmits<{
   align-items: center;
   gap: $spacing-md;
   cursor: pointer;
+  min-width: 0;
+  flex: 1;
 }
 
 .cart-icon {
@@ -79,6 +82,9 @@ defineEmits<{
   font-size: $font-sm;
   font-weight: 600;
   color: $white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cart-count {
@@ -87,6 +93,7 @@ defineEmits<{
 }
 
 .cart-submit {
+  flex-shrink: 0;
   background: $white;
   color: $pink-500;
   font-size: $font-sm;

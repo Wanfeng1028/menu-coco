@@ -234,30 +234,58 @@ onMounted(() => {
 // Random recommend
 function generateRecommendations() {
   const count = Math.floor(Math.random() * 3) + 2 // 2-4 items
-  const shuffled = [...menuItems]
-    .filter(item => item.category !== 'special')
-    .sort(() => Math.random() - 0.5)
+  const nonSpecial = menuItems.filter(item => item.category !== 'special')
+  const specialItems = menuItems.filter(item => item.category === 'special')
 
-  // Try to include different categories
+  // 分类抽样
+  const stapleOrHome = nonSpecial.filter(i => i.category === 'staple' || i.category === 'home')
+  const meatOrBbq = nonSpecial.filter(i => i.category === 'meat' || i.category === 'bbq')
+  const drinks = nonSpecial.filter(i => i.category === 'drink')
+  const desserts = nonSpecial.filter(i => i.category === 'dessert')
+  const others = nonSpecial.filter(i => !['staple', 'home', 'meat', 'bbq', 'drink', 'dessert'].includes(i.category))
+
+  const pick = (arr: MenuItem[]) => arr[Math.floor(Math.random() * arr.length)]
   const selected: MenuItem[] = []
-  const usedCategories = new Set<string>()
+  const usedIds = new Set<string>()
 
-  for (const item of shuffled) {
-    if (selected.length >= count) break
-    if (!usedCategories.has(item.category) || selected.length >= 3) {
+  const addUnique = (item: MenuItem | undefined) => {
+    if (item && !usedIds.has(item.id) && selected.length < count) {
       selected.push(item)
-      usedCategories.add(item.category)
+      usedIds.add(item.id)
     }
   }
 
-  // Fill remaining if needed
-  if (selected.length < count) {
-    for (const item of shuffled) {
-      if (selected.length >= count) break
-      if (!selected.find(s => s.id === item.id)) {
-        selected.push(item)
-      }
-    }
+  // 1. 尽量包含一个主食或家常菜
+  addUnique(pick(stapleOrHome))
+
+  // 2. 可以包含一个肉肉或烧烤
+  if (Math.random() > 0.3) {
+    addUnique(pick(meatOrBbq))
+  }
+
+  // 3. 补充其他菜品
+  const pool = [...others, ...meatOrBbq, ...stapleOrHome].filter(i => !usedIds.has(i.id))
+  pool.sort(() => Math.random() - 0.5)
+  for (const item of pool) {
+    if (selected.length >= count) break
+    addUnique(item)
+  }
+
+  // 4. 可以加一个饮料或甜品
+  if (selected.length < count && Math.random() > 0.4) {
+    addUnique(pick(Math.random() > 0.5 ? drinks : desserts))
+  }
+
+  // 5. 偶尔包含隐藏彩蛋
+  if (selected.length < count && Math.random() > 0.7 && specialItems.length > 0) {
+    addUnique(pick(specialItems))
+  }
+
+  // 6. 填满剩余
+  const remaining = nonSpecial.filter(i => !usedIds.has(i.id)).sort(() => Math.random() - 0.5)
+  for (const item of remaining) {
+    if (selected.length >= count) break
+    addUnique(item)
   }
 
   recommendations.value = selected
@@ -295,13 +323,33 @@ function handleQuickAction(key: string) {
       if (coaxItem) addToCart(coaxItem)
       break
     case 'arrange':
-      // Random add 2-4 items
-      const shuffled = [...menuItems]
-        .filter(item => item.category !== 'special')
-        .sort(() => Math.random() - 0.5)
-      const count = Math.floor(Math.random() * 3) + 2
-      for (let i = 0; i < count && i < shuffled.length; i++) {
-        addToCart(shuffled[i])
+      // Random add 2-4 items: 1 staple/home + 1 meat/bbq + optional drink/dessert
+      const arrangePick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)]
+      const arrangeNonSpecial = menuItems.filter(i => i.category !== 'special')
+      const arrangeStapleHome = arrangeNonSpecial.filter(i => i.category === 'staple' || i.category === 'home')
+      const arrangeMeatBbq = arrangeNonSpecial.filter(i => i.category === 'meat' || i.category === 'bbq')
+      const arrangeDrinks = arrangeNonSpecial.filter(i => i.category === 'drink')
+      const arrangeDesserts = arrangeNonSpecial.filter(i => i.category === 'dessert')
+
+      const arrangeIds = new Set<string>()
+      const addArrange = (item: MenuItem | undefined) => {
+        if (item && !arrangeIds.has(item.id)) {
+          addToCart(item)
+          arrangeIds.add(item.id)
+        }
+      }
+
+      addArrange(arrangePick(arrangeStapleHome))
+      addArrange(arrangePick(arrangeMeatBbq))
+      if (Math.random() > 0.5) addArrange(arrangePick(arrangeDrinks))
+      if (Math.random() > 0.5) addArrange(arrangePick(arrangeDesserts))
+
+      // Fill to 2-4 if needed
+      const arrangeTarget = Math.max(2, arrangeIds.size)
+      const arrangePool = arrangeNonSpecial.filter(i => !arrangeIds.has(i.id)).sort(() => Math.random() - 0.5)
+      for (const item of arrangePool) {
+        if (arrangeIds.size >= arrangeTarget) break
+        addArrange(item)
       }
       break
   }
