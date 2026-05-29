@@ -10,6 +10,8 @@ export const categories: CategoryTab[] = [
   { key: 'drink', label: '饮料' },
   { key: 'dessert', label: '甜品' },
   { key: 'light', label: '健康清淡' },
+  { key: 'soup', label: '汤粥' },
+  { key: 'breakfast', label: '早餐' },
   { key: 'special', label: '隐藏彩蛋' }
 ]
 
@@ -1187,6 +1189,267 @@ export const menuItems: MenuItem[] = [
     emoji: '🥣',
     tags: ['健康', '热乎'],
     loveValue: 2
+  },
+
+  // ========== 汤粥 soup ==========
+  {
+    id: 'congee-pork-egg',
+    name: '皮蛋瘦肉粥',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '经典广式粥品，暖胃又暖心',
+    emoji: '🥣',
+    tags: ['热乎', '常点', '招牌'],
+    loveValue: 4,
+    isPopular: true,
+    isRecommended: true
+  },
+  {
+    id: 'seafood-congee',
+    name: '海鲜粥',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '鲜美海鲜配上绵密粥底',
+    emoji: '🦐',
+    tags: ['热乎', '鲜美'],
+    loveValue: 4,
+    isRecommended: true
+  },
+  {
+    id: 'chicken-congee',
+    name: '鸡丝粥',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '嫩滑鸡丝配上白粥，清淡养胃',
+    emoji: '🐔',
+    tags: ['热乎', '健康'],
+    loveValue: 3
+  },
+  {
+    id: 'silver-ear-soup',
+    name: '银耳汤',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '甜甜糯糯，美容养颜',
+    emoji: '🍄',
+    tags: ['甜甜', '健康', '推荐'],
+    loveValue: 3,
+    isRecommended: true
+  },
+  {
+    id: 'green-bean-soup',
+    name: '绿豆汤',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '清凉解暑，夏天必备',
+    emoji: '🫘',
+    tags: ['清爽', '解暑'],
+    loveValue: 3,
+    isPopular: true
+  },
+  {
+    id: 'tomato-egg-soup',
+    name: '番茄蛋汤',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '酸甜开胃，百搭汤品',
+    emoji: '🍅',
+    tags: ['热乎', '常点'],
+    loveValue: 3,
+    isPopular: true
+  },
+  {
+    id: 'winter-melon-soup',
+    name: '冬瓜丸子汤',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '清爽冬瓜配上鲜嫩丸子',
+    emoji: '🍈',
+    tags: ['热乎', '清淡'],
+    loveValue: 3
+  },
+  {
+    id: 'mushroom-soup',
+    name: '菌菇汤',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '多种菌菇炖出鲜美汤底',
+    emoji: '🍄',
+    tags: ['热乎', '鲜美', '健康'],
+    loveValue: 3,
+    isRecommended: true
+  },
+  {
+    id: 'lotus-rib-soup',
+    name: '排骨莲藕汤',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '排骨的鲜配上莲藕的甜',
+    emoji: '🍖',
+    tags: ['热乎', '家常', '推荐'],
+    loveValue: 4,
+    isRecommended: true
+  },
+  {
+    id: 'sour-spicy-soup',
+    name: '酸辣汤',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '酸酸辣辣，开胃神器',
+    emoji: '🌶️',
+    tags: ['辣辣', '开胃'],
+    loveValue: 3
+  },
+  {
+    id: 'osmanthus-rice-ball',
+    name: '桂花酒酿圆子',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '桂花香气配上软糯小圆子',
+    emoji: '🌸',
+    tags: ['甜甜', '招牌'],
+    loveValue: 5,
+    isPopular: true,
+    isRecommended: true
+  },
+  {
+    id: 'red-date-silver-ear',
+    name: '红枣银耳羹',
+    category: 'soup',
+    categoryName: '汤粥',
+    description: '红枣补血银耳养颜，甜甜的',
+    emoji: '🫖',
+    tags: ['甜甜', '健康'],
+    loveValue: 4
+  },
+
+  // ========== 早餐 breakfast ==========
+  {
+    id: 'soy-milk-fritters',
+    name: '豆浆油条',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '经典早餐搭配，永远的神',
+    emoji: '🥛',
+    tags: ['早餐', '经典', '常点'],
+    loveValue: 4,
+    isPopular: true,
+    isRecommended: true
+  },
+  {
+    id: 'pan-fried-buns',
+    name: '生煎包',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '底部金黄酥脆，咬一口爆汁',
+    emoji: '🥟',
+    tags: ['早餐', '招牌'],
+    loveValue: 5,
+    isPopular: true
+  },
+  {
+    id: 'sandwich',
+    name: '三明治',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '简单快手，营养均衡',
+    emoji: '🥪',
+    tags: ['早餐', '快手'],
+    loveValue: 3
+  },
+  {
+    id: 'tea-egg',
+    name: '茶叶蛋',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '茶香入味，一口一个',
+    emoji: '🥚',
+    tags: ['早餐', '常点'],
+    loveValue: 3,
+    isPopular: true
+  },
+  {
+    id: 'steamed-buns',
+    name: '包子',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '热腾腾的包子，馅料满满',
+    emoji: '🥟',
+    tags: ['早餐', '热乎'],
+    loveValue: 3
+  },
+  {
+    id: 'rice-balls',
+    name: '饭团',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '糯米包裹各种馅料，饱腹感满满',
+    emoji: '🍙',
+    tags: ['早餐', '饱腹'],
+    loveValue: 3
+  },
+  {
+    id: 'jianbing',
+    name: '煎饼果子',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '薄脆配上酱料，路边摊之王',
+    emoji: '🥞',
+    tags: ['早餐', '招牌', '推荐'],
+    loveValue: 5,
+    isPopular: true,
+    isRecommended: true
+  },
+  {
+    id: 'scallion-pancake',
+    name: '葱油饼',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '层层酥脆，葱香四溢',
+    emoji: '🫓',
+    tags: ['早餐', '酥脆'],
+    loveValue: 3
+  },
+  {
+    id: 'ci-fan-tuan',
+    name: '粢饭团',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '糯米包油条，上海经典早餐',
+    emoji: '🍙',
+    tags: ['早餐', '经典'],
+    loveValue: 4,
+    isRecommended: true
+  },
+  {
+    id: 'tofu-pudding',
+    name: '豆腐脑',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '嫩滑豆腐配上卤汁，咸甜之争',
+    emoji: '🍮',
+    tags: ['早餐', '热乎'],
+    loveValue: 3
+  },
+  {
+    id: 'brown-sugar-bun',
+    name: '红糖馒头',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '甜甜的红糖香，软软糯糯',
+    emoji: '🍞',
+    tags: ['早餐', '甜甜'],
+    loveValue: 3
+  },
+  {
+    id: 'bacon-toast',
+    name: '培根吐司',
+    category: 'breakfast',
+    categoryName: '早餐',
+    description: '煎培根配上烤吐司，西式早餐',
+    emoji: '🥓',
+    tags: ['早餐', '西式'],
+    loveValue: 3
   },
 
   // ========== 隐藏彩蛋 special ==========

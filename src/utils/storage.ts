@@ -1,7 +1,8 @@
-import type { CartItem, OrderForm } from '@/types/order'
+import type { CartItem, OrderForm, OrderRecord } from '@/types/order'
 
 const CART_KEY = 'menu-coco-cart'
 const PREFERENCE_KEY = 'menu-coco-order-preference'
+const ORDER_HISTORY_KEY = 'menu-coco-order-history'
 
 function getStorage<T>(key: string): T | null {
   try {
@@ -46,4 +47,30 @@ export function getPreference(): Partial<OrderForm> | null {
 
 export function setPreference(pref: Partial<OrderForm>): void {
   setStorage(PREFERENCE_KEY, pref)
+}
+
+export function getOrderHistory(): OrderRecord[] {
+  return getStorage<OrderRecord[]>(ORDER_HISTORY_KEY) || []
+}
+
+export function setOrderHistory(history: OrderRecord[]): void {
+  setStorage(ORDER_HISTORY_KEY, history)
+}
+
+export function addOrderHistory(record: OrderRecord): void {
+  const history = getOrderHistory()
+  history.unshift(record)
+  if (history.length > 50) {
+    history.length = 50
+  }
+  setOrderHistory(history)
+}
+
+export function removeOrderHistory(id: string): void {
+  const history = getOrderHistory().filter(r => r.id !== id)
+  setOrderHistory(history)
+}
+
+export function clearOrderHistory(): void {
+  removeStorage(ORDER_HISTORY_KEY)
 }

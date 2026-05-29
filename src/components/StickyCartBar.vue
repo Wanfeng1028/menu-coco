@@ -1,6 +1,6 @@
 <template>
   <Teleport to="body">
-    <div class="sticky-cart-bar" v-if="cartCount > 0">
+    <div class="sticky-cart-bar" v-if="visible && cartCount > 0">
       <div class="cart-left" @click="$emit('openCart')">
         <span class="cart-icon">🛒</span>
         <div class="cart-info">
@@ -19,6 +19,7 @@
 import type { CartItem } from '@/types/order'
 
 defineProps<{
+  visible: boolean
   cartCount: number
   cart: CartItem[]
 }>()

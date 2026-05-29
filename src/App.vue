@@ -2,6 +2,7 @@
   <div class="app-container">
     <AppHeader />
 
+    <!-- 首页：欢迎卡片 -->
     <WelcomeCard
       v-if="currentView === 'menu'"
       @random-recommend="showRandomRecommend"
@@ -11,24 +12,20 @@
     <!-- 菜单视图 -->
     <template v-if="currentView === 'menu'">
       <TopTipBar />
-      
       <ShopStatusCard />
-      
       <SearchBar v-model="searchQuery" />
-      
       <QuickActions @action="handleQuickAction" />
-      
       <BenefitCards />
-      
+
       <FavoriteSection
         :items="favoriteItems"
         @add-to-cart="addToCart"
       />
-      
+
       <div ref="menuRef">
         <h3 class="section-title">🍽️ 全部菜品</h3>
       </div>
-      
+
       <ShopMenuLayout
         :categories="categories"
         :menu-items="filteredMenuItems"
@@ -49,16 +46,38 @@
       @submit="handleSubmitOrder"
     />
 
-    <!-- 底部固定购物车栏 -->
+    <!-- 订单完成页 -->
+    <OrderSuccessPage
+      v-if="currentView === 'success' && latestOrder"
+      :order="latestOrder"
+      @copy-order="handleCopyOrder"
+      @reorder="handleReorderFromSuccess"
+      @modify-order="handleModifyOrder"
+      @view-history="currentView = 'history'"
+      @go-home="handleGoHome"
+    />
+
+    <!-- 订单历史页 -->
+    <OrderHistory
+      v-if="currentView === 'history'"
+      :orders="orderHistory"
+      @reorder="handleReorderFromHistory"
+      @go-back="currentView = latestOrder ? 'success' : 'menu'"
+      @clear-history="handleClearHistory"
+    />
+
+    <!-- 底部固定购物车栏（仅首页显示） -->
     <StickyCartBar
+      :visible="currentView === 'menu'"
       :cart-count="cartCount"
       :cart="cart"
       @open-cart="openCartPanel"
       @submit="goToOrder"
     />
 
-    <!-- 购物车面板 -->
+    <!-- 购物车面板（仅首页和订单页显示） -->
     <CartPanel
+      v-if="currentView === 'menu' || currentView === 'order'"
       ref="cartPanelRef"
       :cart="cart"
       :cart-count="cartCount"
@@ -80,17 +99,30 @@
       @add-all="addAllRecommendations"
     />
 
-    <!-- 成功弹窗 -->
-    <SuccessModal
-      :visible="showSuccess"
-      @close="handleSuccessClose"
-      @reorder="handleReorder"
-    />
+    <!-- 订单失败卡片 -->
+    <Transition name="fade">
+      <div v-if="showFailCard" class="fail-overlay">
+        <OrderFailCard
+          :error-message="submitError"
+          :has-order="cart.length > 0"
+          @retry="handleSubmitOrder"
+          @copy-order="handleCopyFailedOrder"
+          @go-back="showFailCard = false"
+        />
+      </div>
+    </Transition>
 
-    <!-- 错误提示 -->
+    <!-- 错误提示 toast -->
     <Transition name="fade">
       <div v-if="errorMessage" class="error-toast" @click="errorMessage = ''">
         {{ errorMessage }}
+      </div>
+    </Transition>
+
+    <!-- 成功提示 toast -->
+    <Transition name="fade">
+      <div v-if="successMessage" class="success-toast">
+        {{ successMessage }}
       </div>
     </Transition>
   </div>
@@ -98,10 +130,11 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
-import type { MenuItem, CartItem, OrderForm as OrderFormType } from '@/types/order'
+import type { MenuItem, CartItem, OrderForm as OrderFormType, OrderRecord, AppView } from '@/types/order'
 import { menuItems, categories } from '@/data/menu'
-import { getCart, setCart, clearCart, getPreference, setPreference } from '@/utils/storage'
+import { getCart, setCart, clearCart, getPreference, setPreference, getOrderHistory, addOrderHistory, clearOrderHistory } from '@/utils/storage'
 import { sendOrderEmail } from '@/utils/email'
+import { createOrderRecord, formatOrderSummary, copyToClipboard, restoreCartFromRecord, restoreFormFromRecord } from '@/utils/order'
 
 import AppHeader from '@/components/AppHeader.vue'
 import WelcomeCard from '@/components/WelcomeCard.vue'
@@ -116,17 +149,23 @@ import StickyCartBar from '@/components/StickyCartBar.vue'
 import CartPanel from '@/components/CartPanel.vue'
 import OrderForm from '@/components/OrderForm.vue'
 import RandomRecommend from '@/components/RandomRecommend.vue'
-import SuccessModal from '@/components/SuccessModal.vue'
+import OrderSuccessPage from '@/components/OrderSuccessPage.vue'
+import OrderFailCard from '@/components/OrderFailCard.vue'
+import OrderHistory from '@/components/OrderHistory.vue'
 
 // State
-const currentView = ref<'menu' | 'order'>('menu')
+const currentView = ref<AppView>('menu')
 const searchQuery = ref('')
 const cart = ref<CartItem[]>([])
 const showRecommend = ref(false)
 const recommendations = ref<MenuItem[]>([])
-const showSuccess = ref(false)
 const submitting = ref(false)
 const errorMessage = ref('')
+const successMessage = ref('')
+const showFailCard = ref(false)
+const submitError = ref('')
+const latestOrder = ref<OrderRecord | null>(null)
+const orderHistory = ref<OrderRecord[]>([])
 const menuRef = ref<HTMLElement | null>(null)
 const cartPanelRef = ref<InstanceType<typeof CartPanel> | null>(null)
 
@@ -146,7 +185,7 @@ const orderForm = ref<OrderFormType>({ ...defaultForm })
 const filteredMenuItems = computed(() => {
   if (!searchQuery.value) return menuItems
   const query = searchQuery.value.toLowerCase()
-  return menuItems.filter(item => 
+  return menuItems.filter(item =>
     item.name.toLowerCase().includes(query) ||
     item.categoryName.toLowerCase().includes(query) ||
     item.description.toLowerCase().includes(query) ||
@@ -155,9 +194,9 @@ const filteredMenuItems = computed(() => {
 })
 
 const favoriteItems = computed(() => {
-  return menuItems.filter(item => 
+  return menuItems.filter(item =>
     item.isPopular || item.isRecommended
-  ).slice(0, 6)
+  ).slice(0, 8)
 })
 
 const cartCount = computed(() => {
@@ -176,9 +215,7 @@ function addToCart(item: MenuItem) {
 
 function increaseQuantity(id: string) {
   const item = cart.value.find(i => i.id === id)
-  if (item) {
-    item.quantity++
-  }
+  if (item) item.quantity++
 }
 
 function decreaseQuantity(id: string) {
@@ -221,28 +258,24 @@ watch(orderForm, (newForm) => {
 
 onMounted(() => {
   const savedCart = getCart()
-  if (savedCart.length > 0) {
-    cart.value = savedCart
-  }
-
+  if (savedCart.length > 0) cart.value = savedCart
   const savedPref = getPreference()
-  if (savedPref) {
-    orderForm.value = { ...defaultForm, ...savedPref }
-  }
+  if (savedPref) orderForm.value = { ...defaultForm, ...savedPref }
+  orderHistory.value = getOrderHistory()
 })
 
 // Random recommend
 function generateRecommendations() {
-  const count = Math.floor(Math.random() * 3) + 2 // 2-4 items
+  const count = Math.floor(Math.random() * 3) + 2
   const nonSpecial = menuItems.filter(item => item.category !== 'special')
   const specialItems = menuItems.filter(item => item.category === 'special')
 
-  // 分类抽样
-  const stapleOrHome = nonSpecial.filter(i => i.category === 'staple' || i.category === 'home')
+  const stapleOrHome = nonSpecial.filter(i => ['staple', 'home', 'breakfast'].includes(i.category))
   const meatOrBbq = nonSpecial.filter(i => i.category === 'meat' || i.category === 'bbq')
   const drinks = nonSpecial.filter(i => i.category === 'drink')
   const desserts = nonSpecial.filter(i => i.category === 'dessert')
-  const others = nonSpecial.filter(i => !['staple', 'home', 'meat', 'bbq', 'drink', 'dessert'].includes(i.category))
+  const soupOrLight = nonSpecial.filter(i => i.category === 'soup' || i.category === 'light')
+  const others = nonSpecial.filter(i => !['staple', 'home', 'breakfast', 'meat', 'bbq', 'drink', 'dessert', 'soup', 'light'].includes(i.category))
 
   const pick = (arr: MenuItem[]) => arr[Math.floor(Math.random() * arr.length)]
   const selected: MenuItem[] = []
@@ -255,33 +288,24 @@ function generateRecommendations() {
     }
   }
 
-  // 1. 尽量包含一个主食或家常菜
   addUnique(pick(stapleOrHome))
+  if (Math.random() > 0.3) addUnique(pick(meatOrBbq))
 
-  // 2. 可以包含一个肉肉或烧烤
-  if (Math.random() > 0.3) {
-    addUnique(pick(meatOrBbq))
-  }
-
-  // 3. 补充其他菜品
-  const pool = [...others, ...meatOrBbq, ...stapleOrHome].filter(i => !usedIds.has(i.id))
+  const pool = [...others, ...meatOrBbq, ...stapleOrHome, ...soupOrLight].filter(i => !usedIds.has(i.id))
   pool.sort(() => Math.random() - 0.5)
   for (const item of pool) {
     if (selected.length >= count) break
     addUnique(item)
   }
 
-  // 4. 可以加一个饮料或甜品
   if (selected.length < count && Math.random() > 0.4) {
     addUnique(pick(Math.random() > 0.5 ? drinks : desserts))
   }
 
-  // 5. 偶尔包含隐藏彩蛋
   if (selected.length < count && Math.random() > 0.7 && specialItems.length > 0) {
     addUnique(pick(specialItems))
   }
 
-  // 6. 填满剩余
   const remaining = nonSpecial.filter(i => !usedIds.has(i.id)).sort(() => Math.random() - 0.5)
   for (const item of remaining) {
     if (selected.length >= count) break
@@ -298,9 +322,7 @@ function showRandomRecommend() {
 
 function addAllRecommendations() {
   for (const item of recommendations.value) {
-    if (!isInCart(item.id)) {
-      addToCart(item)
-    }
+    if (!isInCart(item.id)) addToCart(item)
   }
   showRecommend.value = false
 }
@@ -308,7 +330,15 @@ function addAllRecommendations() {
 // Quick actions
 function handleQuickAction(key: string) {
   switch (key) {
-    case 'recommend':
+    case 'recommend': {
+      searchQuery.value = ''
+      const recommended = menuItems.filter(i => i.isRecommended).slice(0, 6)
+      if (recommended.length > 0) {
+        recommendations.value = recommended
+        showRecommend.value = true
+      }
+      break
+    }
     case 'random':
       showRandomRecommend()
       break
@@ -318,40 +348,40 @@ function handleQuickAction(key: string) {
     case 'drink':
       searchQuery.value = '饮料'
       break
-    case 'coax':
+    case 'coax': {
       const coaxItem = menuItems.find(item => item.id === 'want-to-be-coaxed')
       if (coaxItem) addToCart(coaxItem)
       break
-    case 'arrange':
-      // Random add 2-4 items: 1 staple/home + 1 meat/bbq + optional drink/dessert
-      const arrangePick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)]
-      const arrangeNonSpecial = menuItems.filter(i => i.category !== 'special')
-      const arrangeStapleHome = arrangeNonSpecial.filter(i => i.category === 'staple' || i.category === 'home')
-      const arrangeMeatBbq = arrangeNonSpecial.filter(i => i.category === 'meat' || i.category === 'bbq')
-      const arrangeDrinks = arrangeNonSpecial.filter(i => i.category === 'drink')
-      const arrangeDesserts = arrangeNonSpecial.filter(i => i.category === 'dessert')
+    }
+    case 'arrange': {
+      const pick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)]
+      const nonSpecial = menuItems.filter(i => i.category !== 'special')
+      const stapleHome = nonSpecial.filter(i => ['staple', 'home', 'breakfast'].includes(i.category))
+      const meatBbq = nonSpecial.filter(i => i.category === 'meat' || i.category === 'bbq')
+      const drinks = nonSpecial.filter(i => i.category === 'drink')
+      const desserts = nonSpecial.filter(i => i.category === 'dessert')
 
-      const arrangeIds = new Set<string>()
-      const addArrange = (item: MenuItem | undefined) => {
-        if (item && !arrangeIds.has(item.id)) {
+      const ids = new Set<string>()
+      const add = (item: MenuItem | undefined) => {
+        if (item && !ids.has(item.id)) {
           addToCart(item)
-          arrangeIds.add(item.id)
+          ids.add(item.id)
         }
       }
 
-      addArrange(arrangePick(arrangeStapleHome))
-      addArrange(arrangePick(arrangeMeatBbq))
-      if (Math.random() > 0.5) addArrange(arrangePick(arrangeDrinks))
-      if (Math.random() > 0.5) addArrange(arrangePick(arrangeDesserts))
+      add(pick(stapleHome))
+      add(pick(meatBbq))
+      if (Math.random() > 0.5) add(pick(drinks))
+      if (Math.random() > 0.5) add(pick(desserts))
 
-      // Fill to 2-4 if needed
-      const arrangeTarget = Math.max(2, arrangeIds.size)
-      const arrangePool = arrangeNonSpecial.filter(i => !arrangeIds.has(i.id)).sort(() => Math.random() - 0.5)
-      for (const item of arrangePool) {
-        if (arrangeIds.size >= arrangeTarget) break
-        addArrange(item)
+      const target = Math.max(2, ids.size)
+      const pool = nonSpecial.filter(i => !ids.has(i.id)).sort(() => Math.random() - 0.5)
+      for (const item of pool) {
+        if (ids.size >= target) break
+        add(item)
       }
       break
+    }
   }
 }
 
@@ -361,9 +391,7 @@ function scrollToMenu() {
 }
 
 function openCartPanel() {
-  if (cartPanelRef.value) {
-    cartPanelRef.value.isOpen = true
-  }
+  if (cartPanelRef.value) cartPanelRef.value.isOpen = true
 }
 
 function goToOrder() {
@@ -384,28 +412,88 @@ async function handleSubmitOrder() {
   }
 
   submitting.value = true
+  showFailCard.value = false
 
   try {
     await sendOrderEmail(cart.value, orderForm.value)
-    showSuccess.value = true
+    const record = createOrderRecord(cart.value, orderForm.value)
+    latestOrder.value = record
+    addOrderHistory(record)
+    orderHistory.value = getOrderHistory()
     clearCartItems()
+    currentView.value = 'success'
   } catch (error: any) {
-    errorMessage.value = error.message || '发送失败了，宝宝先截图发给我也可以～'
-    setTimeout(() => { errorMessage.value = '' }, 3000)
+    submitError.value = error.message || '发送失败了，宝宝先截图发给我也可以～'
+    showFailCard.value = true
   } finally {
     submitting.value = false
   }
 }
 
-// Success modal
-function handleSuccessClose() {
-  showSuccess.value = false
+// Copy order
+async function handleCopyOrder() {
+  if (!latestOrder.value) return
+  const text = formatOrderSummary(latestOrder.value)
+  const ok = await copyToClipboard(text)
+  if (ok) {
+    showSuccessToast('订单已复制到剪贴板～')
+  } else {
+    errorMessage.value = '复制失败，请手动截图～'
+    setTimeout(() => { errorMessage.value = '' }, 2000)
+  }
+}
+
+async function handleCopyFailedOrder() {
+  const record = createOrderRecord(cart.value, orderForm.value)
+  const text = formatOrderSummary(record)
+  const ok = await copyToClipboard(text)
+  if (ok) {
+    showSuccessToast('订单已复制到剪贴板～')
+  } else {
+    errorMessage.value = '复制失败，请手动截图～'
+    setTimeout(() => { errorMessage.value = '' }, 2000)
+  }
+}
+
+// Reorder from success page
+function handleReorderFromSuccess() {
+  clearCartItems()
+  orderForm.value = { ...defaultForm, ...getPreference() }
   currentView.value = 'menu'
 }
 
-function handleReorder() {
-  showSuccess.value = false
+// Modify order from success page
+function handleModifyOrder() {
+  if (latestOrder.value) {
+    cart.value = restoreCartFromRecord(latestOrder.value)
+    orderForm.value = restoreFormFromRecord(latestOrder.value)
+  }
   currentView.value = 'menu'
+}
+
+// Reorder from history
+function handleReorderFromHistory(record: OrderRecord) {
+  cart.value = restoreCartFromRecord(record)
+  orderForm.value = restoreFormFromRecord(record)
+  currentView.value = 'menu'
+}
+
+// Go home
+function handleGoHome() {
+  latestOrder.value = null
+  currentView.value = 'menu'
+}
+
+// Clear history
+function handleClearHistory() {
+  clearOrderHistory()
+  orderHistory.value = []
+  showSuccessToast('历史已清空～')
+}
+
+function showSuccessToast(msg: string) {
+  successMessage.value = msg
+  setTimeout(() => { successMessage.value = '' }, 2000)
 }
 </script>
 
@@ -433,15 +521,32 @@ function handleReorder() {
   text-align: center;
 }
 
-// Scale transition for success modal
-.scale-enter-active,
-.scale-leave-active {
-  transition: transform 0.3s ease, opacity 0.3s ease;
+.success-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(76, 175, 80, 0.9);
+  color: $white;
+  padding: $spacing-md $spacing-2xl;
+  border-radius: $radius-lg;
+  font-size: $font-sm;
+  z-index: 400;
+  max-width: 280px;
+  text-align: center;
 }
 
-.scale-enter-from,
-.scale-leave-to {
-  transform: scale(0.8);
-  opacity: 0;
+.fail-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl;
 }
 </style>

@@ -103,3 +103,29 @@ img {
   transform: translateY(100%);
   opacity: 0;
 }
+
+.scale-enter-active,
+.scale-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.scale-enter-from,
+.scale-leave-to {
+  transform: scale(0.8);
+  opacity: 0;
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.slide-right-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-right-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
