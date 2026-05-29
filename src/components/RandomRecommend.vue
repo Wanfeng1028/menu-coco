@@ -5,7 +5,7 @@
         <Transition name="slide-up">
           <div v-if="visible" class="recommend-panel">
             <div class="panel-header">
-              <h2 class="panel-title">🎲 今天小鸡毛适合吃这些～</h2>
+              <h2 class="panel-title">🎲 今天小白白适合吃这些～</h2>
               <button class="panel-close" @click="$emit('close')">✕</button>
             </div>
 
@@ -32,10 +32,10 @@
 
             <div class="panel-footer">
               <button class="refresh-btn" @click="$emit('refresh')">
-                🔄 换一批
+                🔄 换一组
               </button>
               <button class="addAll-btn" @click="$emit('addAll')">
-                全部加入 🛒
+                一键加入菜单 🛒
               </button>
             </div>
           </div>
@@ -70,7 +70,7 @@ defineEmits<{
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 200;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -302,6 +302,7 @@ const moodOptions = [
   display: flex;
   gap: $spacing-md;
   margin-top: $spacing-2xl;
+  padding-bottom: $spacing-lg;
 }
 
 .back-btn {

@@ -7,6 +7,11 @@ export interface MenuItem {
   categoryName: string
   description: string
   emoji: string
+  // 新增字段
+  tags?: string[]
+  loveValue?: number
+  isPopular?: boolean
+  isRecommended?: boolean
 }
 
 export interface CartItem extends MenuItem {

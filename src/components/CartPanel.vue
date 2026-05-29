@@ -140,7 +140,7 @@ defineExpose({ isOpen })
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 200;
+  z-index: 90;
   display: flex;
   align-items: flex-end;
   justify-content: center;

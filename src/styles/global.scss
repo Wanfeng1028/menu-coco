@@ -27,7 +27,7 @@ html, body {
   max-width: $content-max-width;
   min-height: 100vh;
   padding: $spacing-lg;
-  padding-bottom: calc(#{$spacing-xl} + #{$cart-button-height} + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
   position: relative;
 }
 
