@@ -1195,7 +1195,7 @@ export const menuItems: MenuItem[] = [
     name: '不知道吃什么',
     category: 'special',
     categoryName: '隐藏彩蛋',
-    description: '没关系，小白白来安排',
+    description: '没关系，小鸡毛来安排',
     emoji: '🤷‍♀️',
     tags: ['惊喜', '不知道吃啥'],
     loveValue: 3,

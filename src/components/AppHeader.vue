@@ -3,7 +3,7 @@
     <div class="header-card">
       <div class="header-emoji">🍽️</div>
       <h1 class="header-title">Coco 宝宝专属点餐站</h1>
-      <p class="header-subtitle">今天想吃什么呀，小白白来安排 💕</p>
+      <p class="header-subtitle">今天想吃什么呀，小鸡毛来安排 💕</p>
     </div>
   </header>
 </template>

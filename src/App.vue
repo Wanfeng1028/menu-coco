@@ -131,7 +131,7 @@ const menuRef = ref<HTMLElement | null>(null)
 const cartPanelRef = ref<InstanceType<typeof CartPanel> | null>(null)
 
 const defaultForm: OrderFormType = {
-  nickname: '小白白',
+  nickname: '小鸡毛',
   mealTime: 'now',
   customMealTime: '',
   spicyLevel: 'none',
