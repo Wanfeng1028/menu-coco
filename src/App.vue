@@ -177,6 +177,12 @@ const menuRef = ref<HTMLElement | null>(null)
 const cartPanelRef = ref<InstanceType<typeof CartPanel> | null>(null)
 const currentMealType = ref<MealType>('anytime')
 
+// 按餐次筛选菜品：'anytime' 显示全部，否则只显示 mealTypes 包含当前餐次或无限制的菜品
+function filterByMealType(items: MenuItem[]): MenuItem[] {
+  if (currentMealType.value === 'anytime') return items
+  return items.filter(item => !item.mealTypes || item.mealTypes.includes(currentMealType.value))
+}
+
 const defaultForm: OrderFormType = {
   nickname: '小鸡毛',
   mealType: getCurrentMealType(),
@@ -195,9 +201,10 @@ const orderForm = ref<OrderFormType>({ ...defaultForm })
 
 // Computed
 const filteredMenuItems = computed(() => {
-  if (!searchQuery.value) return menuItems
+  const mealFiltered = filterByMealType(menuItems)
+  if (!searchQuery.value) return mealFiltered
   const query = searchQuery.value.toLowerCase()
-  return menuItems.filter(item =>
+  return mealFiltered.filter(item =>
     item.name.toLowerCase().includes(query) ||
     item.categoryName.toLowerCase().includes(query) ||
     item.description.toLowerCase().includes(query) ||
@@ -206,9 +213,18 @@ const filteredMenuItems = computed(() => {
 })
 
 const favoriteItems = computed(() => {
-  return menuItems.filter(item =>
-    item.isPopular || item.isRecommended
-  ).slice(0, 8)
+  if (currentMealType.value === 'anytime') {
+    return menuItems.filter(item => item.isPopular || item.isRecommended).slice(0, 8)
+  }
+  const mealMatch = menuItems.filter(item =>
+    (item.isPopular || item.isRecommended) &&
+    (!item.mealTypes || item.mealTypes.includes(currentMealType.value))
+  )
+  if (mealMatch.length >= 8) return mealMatch.slice(0, 8)
+  const others = menuItems.filter(item =>
+    (item.isPopular || item.isRecommended) && !mealMatch.includes(item)
+  )
+  return [...mealMatch, ...others].slice(0, 8)
 })
 
 const cartCount = computed(() => {
@@ -280,7 +296,7 @@ onMounted(() => {
 // Random recommend
 function generateRecommendations() {
   const count = Math.floor(Math.random() * 3) + 2
-  const nonSpecial = menuItems.filter(item => item.category !== 'special')
+  const nonSpecial = filterByMealType(menuItems.filter(item => item.category !== 'special'))
   const specialItems = menuItems.filter(item => item.category === 'special')
 
   const stapleOrHome = nonSpecial.filter(i => ['staple', 'home', 'breakfast'].includes(i.category))
@@ -345,7 +361,7 @@ function handleQuickAction(key: string) {
   switch (key) {
     case 'recommend': {
       searchQuery.value = ''
-      const recommended = menuItems.filter(i => i.isRecommended).slice(0, 6)
+      const recommended = filterByMealType(menuItems.filter(i => i.isRecommended)).slice(0, 6)
       if (recommended.length > 0) {
         recommendations.value = recommended
         showRecommend.value = true
@@ -368,7 +384,7 @@ function handleQuickAction(key: string) {
     }
     case 'arrange': {
       const pick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)]
-      const nonSpecial = menuItems.filter(i => i.category !== 'special')
+      const nonSpecial = filterByMealType(menuItems.filter(i => i.category !== 'special'))
       const stapleHome = nonSpecial.filter(i => ['staple', 'home', 'breakfast'].includes(i.category))
       const meatBbq = nonSpecial.filter(i => i.category === 'meat' || i.category === 'bbq')
       const drinks = nonSpecial.filter(i => i.category === 'drink')
@@ -415,7 +431,7 @@ function scrollToOrderForm() {
 
 function handleRandomAdd() {
   const count = Math.floor(Math.random() * 3) + 2 // 2-4 items
-  const nonSpecial = menuItems.filter(i => i.category !== 'special')
+  const nonSpecial = filterByMealType(menuItems.filter(i => i.category !== 'special'))
   const usedIds = new Set(cart.value.map(i => i.id))
 
   // Prefer categories matching current meal type
